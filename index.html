@@ -6,29 +6,10 @@
 <title>Maswer Portal</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-:root{--orange:#F47920;--navy:#0D1B2E;--navy2:#132336;--navy3:#1A2F47;--navy4:#213858;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--text:#F0F4FA;--text2:#8BA0BF;--text3:#4A6080;--green:#22c55e;--red:#ef4444;--amber:#f59e0b;--inp-bg:#F5F8FC;--card-bg:#132336;--sidebar-bg:#132336;--content-bg:#E9EEF6;--topbar-bg:#EEF2F8;--ac-bg:#1A2F47;--ac-hover:#213858;--tbl-head:#1A2F47;--uz-bg:#1A2F47;--bi-bg:#1A2F47;
-  /* ── NEUMORPHISM SHADOWS ── */
-  /* on-navy surfaces (sidebar, cards) */
-  --neu-dark:rgba(2,7,14,0.65);--neu-light:rgba(70,98,138,0.22);--neu-dark-sm:rgba(2,7,14,0.55);--neu-light-sm:rgba(70,98,138,0.16);
-  --neu-flat:6px 6px 14px var(--neu-dark),-6px -6px 14px var(--neu-light);
-  --neu-flat-sm:3px 3px 7px var(--neu-dark-sm),-3px -3px 7px var(--neu-light-sm);
-  --neu-flat-lg:9px 9px 20px var(--neu-dark),-9px -9px 20px var(--neu-light);
-  --neu-in:inset 4px 4px 9px var(--neu-dark),inset -4px -4px 9px var(--neu-light);
-  --neu-in-sm:inset 2px 2px 5px var(--neu-dark-sm),inset -2px -2px 5px var(--neu-light-sm);
-  --neu-orange-glow:6px 6px 14px rgba(2,7,14,0.6),-4px -4px 12px rgba(244,121,32,0.10),0 0 0 1px rgba(244,121,32,0.15) inset;
-  /* on-light surfaces (page bg, topbar) */
-  --neu-dark2:rgba(163,177,198,0.5);--neu-light2:rgba(255,255,255,0.9);--neu-dark2-sm:rgba(163,177,198,0.4);--neu-light2-sm:rgba(255,255,255,0.8);
-  --neu-flat2:5px 5px 12px var(--neu-dark2),-5px -5px 12px var(--neu-light2);
-  --neu-flat2-sm:3px 3px 7px var(--neu-dark2-sm),-3px -3px 7px var(--neu-light2-sm);
-  --neu-in2:inset 3px 3px 7px var(--neu-dark2-sm),inset -3px -3px 7px var(--neu-light2-sm);
-  --pill-shadow:0 2px 7px rgba(10,20,35,0.22);
-}
+:root{--orange:#F47920;--navy:#0D1B2E;--navy2:#132336;--navy3:#1A2F47;--navy4:#213858;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--text:#F0F4FA;--text2:#8BA0BF;--text3:#4A6080;--green:#3A6EA5;--red:#C4501A;--amber:#F47920;--inp-bg:#1A2F47;--card-bg:#132336;--sidebar-bg:#132336;--content-bg:#0D1B2E;--topbar-bg:#132336;--ac-bg:#1A2F47;--ac-hover:#213858;--tbl-head:#1A2F47;--uz-bg:#1A2F47;--bi-bg:#1A2F47;}
 body{background:var(--navy);color:var(--text);font-family:Inter,system-ui,sans-serif;font-size:14px;}
 /* ── LIGHT THEME ── */
-body.light{--navy:#F0F4FA;--navy2:#FFFFFF;--navy3:#EEF2F8;--navy4:#E2E8F0;--border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.13);--text:#1A2F47;--text2:#4A6080;--text3:#8BA0BF;--inp-bg:#EEF2F8;--card-bg:#FFFFFF;--sidebar-bg:#FFFFFF;--content-bg:#F0F4FA;--topbar-bg:#FFFFFF;--ac-bg:#FFFFFF;--ac-hover:#EEF2F8;--tbl-head:#EEF2F8;--uz-bg:#EEF2F8;--bi-bg:#EEF2F8;
-  --neu-dark:rgba(163,177,198,0.55);--neu-light:rgba(255,255,255,0.9);--neu-dark-sm:rgba(163,177,198,0.45);--neu-light-sm:rgba(255,255,255,0.8);
-  --neu-orange-glow:6px 6px 14px rgba(163,177,198,0.5),-4px -4px 12px rgba(255,255,255,0.9),0 0 0 1px rgba(244,121,32,0.12) inset;
-}
+body.light{--navy:#F0F4FA;--navy2:#FFFFFF;--navy3:#EEF2F8;--navy4:#E2E8F0;--border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.13);--text:#1A2F47;--text2:#4A6080;--text3:#8BA0BF;--inp-bg:#EEF2F8;--card-bg:#FFFFFF;--sidebar-bg:#FFFFFF;--content-bg:#F0F4FA;--topbar-bg:#FFFFFF;--ac-bg:#FFFFFF;--ac-hover:#EEF2F8;--tbl-head:#EEF2F8;--uz-bg:#EEF2F8;--bi-bg:#EEF2F8;}
 body.light #login-screen{background:#EEF2F8;}
 body.light .login-box{background:#FFFFFF;border-color:rgba(0,0,0,0.1);}
 body.light .tabs{background:#EEF2F8;}
@@ -75,21 +56,19 @@ body.light .ai-box{background:rgba(244,121,32,0.04);}
 /* ── 3-DOT MENU ── */
 .dots-btn{background:none;border:none;cursor:pointer;color:var(--text2);font-size:20px;line-height:1;padding:4px 8px;border-radius:6px;transition:.15s;}
 .dots-btn:hover{background:var(--navy3);color:var(--text);}
-.dots-menu{position:fixed;background:var(--card-bg);border:none;border-radius:14px;box-shadow:var(--neu-flat-lg);z-index:800;min-width:200px;padding:6px;display:none;}
+.dots-menu{position:fixed;background:var(--card-bg);border:1px solid var(--border2);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.25);z-index:800;min-width:200px;padding:6px;display:none;}
 .dots-menu.open{display:block;}
-.dots-mi{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;cursor:pointer;color:var(--text2);font-size:13px;font-weight:500;transition:.15s;}
-.dots-mi:hover{background:var(--navy3);color:var(--text);box-shadow:var(--neu-in-sm);}
+.dots-mi{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:7px;cursor:pointer;color:var(--text2);font-size:13px;font-weight:500;transition:.15s;}
+.dots-mi:hover{background:var(--navy3);color:var(--text);}
 .dots-mi-icon{width:18px;text-align:center;}
 .dots-sep{height:1px;background:var(--border);margin:4px 0;}
 /* ── THEME TOGGLE ── */
-.theme-toggle{display:flex;align-items:center;gap:7px;cursor:pointer;padding:6px 13px;border-radius:999px;border:none;background:var(--topbar-bg);font-size:12px;font-weight:600;color:#16283F;transition:.15s;user-select:none;box-shadow:var(--neu-flat2-sm);}
-.theme-toggle:hover{color:var(--orange);}
-.theme-toggle:active{box-shadow:var(--neu-in2);}
+.theme-toggle{display:flex;align-items:center;gap:7px;cursor:pointer;padding:5px 10px;border-radius:20px;border:1px solid var(--border2);background:var(--navy3);font-size:12px;font-weight:600;color:var(--text2);transition:.15s;user-select:none;}
+.theme-toggle:hover{border-color:var(--orange);color:var(--orange);}
 /* ── INSPECTOR HOME CARDS ── */
-.insp-quickcard{background:var(--card-bg);border:none;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:.2s;margin-bottom:12px;box-shadow:var(--neu-flat);}
-.insp-quickcard:hover{background:var(--card-bg);box-shadow:var(--neu-flat-lg);transform:translateY(-1px);}
-.insp-quickcard:active{box-shadow:var(--neu-in);transform:translateY(0);}
-.insp-qc-icon{font-size:26px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:var(--navy2);color:#F47920;border-radius:12px;flex-shrink:0;box-shadow:var(--neu-in-sm);}
+.insp-quickcard{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:.2s;margin-bottom:12px;}
+.insp-quickcard:hover{border-color:var(--orange);background:rgba(244,121,32,0.05);}
+.insp-qc-icon{font-size:26px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(244,121,32,0.1);border-radius:10px;flex-shrink:0;}
 .insp-qc-t{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;}
 .insp-qc-s{font-size:12px;color:var(--text2);}
 /* overlay close */
@@ -100,7 +79,7 @@ body.light .ai-box{background:rgba(244,121,32,0.04);}
 
 /* BENTO GRID BACKGROUND TILES */
 .login-bento-bg{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:12px;padding:20px;pointer-events:none;opacity:0.55;}
-.lbb{border-radius:22px;background:var(--navy2);border:none;box-shadow:var(--neu-flat-sm);animation:bbFloat 6s ease-in-out infinite;}
+.lbb{border-radius:18px;background:var(--navy2);border:1px solid var(--border);animation:bbFloat 6s ease-in-out infinite;}
 .lbb:nth-child(1){grid-column:1;grid-row:1;background:linear-gradient(135deg,#0D1B2E,#132336);animation-delay:0s;}
 .lbb:nth-child(2){grid-column:2/4;grid-row:1;background:linear-gradient(135deg,#132336,#1A2F47);animation-delay:.4s;display:flex;align-items:center;justify-content:center;}
 .lbb:nth-child(3){grid-column:4;grid-row:1;animation-delay:.8s;}
@@ -108,47 +87,63 @@ body.light .ai-box{background:rgba(244,121,32,0.04);}
 .lbb:nth-child(5){grid-column:3;grid-row:2;animation-delay:.6s;}
 .lbb:nth-child(6){grid-column:4;grid-row:2/4;background:linear-gradient(180deg,#1A2F47,#132336);animation-delay:1s;}
 .lbb:nth-child(7){grid-column:1;grid-row:3;animation-delay:.3s;}
-.lbb:nth-child(8){grid-column:2/4;grid-row:3;background:linear-gradient(135deg,rgba(34,197,94,0.06),rgba(34,197,94,0.01));border-color:rgba(34,197,94,0.12);animation-delay:.7s;}
+.lbb:nth-child(8){grid-column:2/4;grid-row:3;background:linear-gradient(135deg,rgba(58,110,165,0.06),rgba(58,110,165,0.01));border-color:rgba(58,110,165,0.12);animation-delay:.7s;}
 .lbb-stat{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:4px;}
 .lbb-stat .lbb-num{font-size:28px;font-weight:900;color:#F47920;line-height:1;}
 .lbb-stat .lbb-lbl{font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:1px;text-transform:uppercase;}
 @keyframes bbFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
 
-/* FLIP CARD */
-.flip-wrap{position:relative;z-index:10;width:400px;max-width:96vw;perspective:1100px;}
-.flip-inner{position:relative;width:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,0,.2,1);}
-.flip-inner.flipped{transform:rotateY(180deg);}
-.flip-face{backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--navy2);border:none;border-radius:26px;padding:36px 32px;width:100%;box-sizing:border-box;box-shadow:var(--neu-flat-lg);}
-.flip-back{transform:rotateY(180deg);position:absolute;top:0;left:0;}
+/* FLIP CARD wrapper (kept, now hosts the 3-way skeuomorphic role switch) */
+.flip-wrap{position:relative;z-index:10;width:400px;max-width:96vw;}
+.flip-inner{position:relative;width:100%;}
+.flip-face{background:linear-gradient(180deg,#16273D 0%,#0F1E30 100%);border:1px solid var(--border2);border-radius:20px;padding:30px 30px 26px;width:100%;box-sizing:border-box;
+  box-shadow:0 1px 0 rgba(255,255,255,0.06) inset,0 -1px 0 rgba(0,0,0,0.4) inset,0 18px 45px rgba(0,0,0,0.45),0 2px 0 rgba(255,255,255,0.03);}
 
 /* FLIP HEADER */
-.flip-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;}
-.flip-logo{font-size:24px;font-weight:900;letter-spacing:-.5px;}.flip-logo span{color:#F47920;}
-.flip-role-chip{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;user-select:none;transition:.2s;display:flex;align-items:center;gap:5px;}
-.chip-inspector{background:var(--navy3);border:none;color:#22c55e;box-shadow:var(--neu-flat-sm);}
-.chip-admin{background:var(--navy3);border:none;color:#F47920;box-shadow:var(--neu-flat-sm);}
-.flip-role-chip:hover{transform:scale(1.05);}
+.flip-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.flip-logo{font-size:24px;font-weight:900;letter-spacing:-.5px;text-shadow:0 1px 0 rgba(0,0,0,0.5);}.flip-logo span{color:#F47920;}
+
+/* ═══ SKEUOMORPHIC 3-WAY ROLE SWITCH (badge selector) ═══ */
+.role-switch{display:flex;gap:6px;background:linear-gradient(180deg,#0A1420,#0D1B2E);border-radius:12px;padding:5px;margin-bottom:22px;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,0.55),inset 0 -1px 0 rgba(255,255,255,0.04);border:1px solid rgba(0,0,0,0.4);}
+.role-key{flex:1;text-align:center;padding:9px 4px;border-radius:8px;font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;
+  cursor:pointer;user-select:none;color:var(--text3);transition:.15s;background:transparent;border:1px solid transparent;}
+.role-key:hover{color:var(--text2);}
+.role-key.active{color:#0D1B2E;background:linear-gradient(180deg,#FFA45C,#F47920 55%,#D4661A);
+  box-shadow:0 2px 0 #A85212,0 3px 6px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.55);
+  border:1px solid #A85212;transform:translateY(-1px);}
+.role-key.active.rk-senior{background:linear-gradient(180deg,#FFFFFF,#DCE4EE 55%,#B9C6D6);color:#0D1B2E;border-color:#8CA0B8;
+  box-shadow:0 2px 0 #7C8CA0,0 3px 6px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.8);}
+.role-key.active.rk-inspector{background:linear-gradient(180deg,#5D87B8,#3A6EA5 55%,#2A5480);color:#F0F4FA;border-color:#1F3E5C;
+  box-shadow:0 2px 0 #1F3E5C,0 3px 6px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.35);}
+
 .flip-hint{font-size:10px;color:var(--text3);text-align:center;margin-top:14px;letter-spacing:.4px;}
 
 /* SHARED FORM STYLES */
-.role-badge{padding:9px 14px;border-radius:12px;font-size:13px;font-weight:600;margin-bottom:18px;border:none;display:block;background:var(--navy3);box-shadow:var(--neu-in-sm);}
-.badge-admin{color:#F47920;}
-.badge-inspector{color:#22c55e;}
+.role-badge{padding:9px 14px;border-radius:8px;font-size:13px;font-weight:600;margin-bottom:18px;border:1px solid;display:block;}
+.badge-admin{background:rgba(244,121,32,0.1);border-color:rgba(244,121,32,0.3);color:#F47920;}
+.badge-senior{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.2);color:#F0F4FA;}
+.badge-inspector{background:rgba(58,110,165,0.12);border-color:rgba(58,110,165,0.3);color:#8FB4DD;}
 .label{font-size:11px;color:var(--text2);font-weight:600;letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:6px;}
-.inp{background:var(--navy3);border:none;border-radius:12px;padding:11px 13px;color:var(--text);font-size:14px;font-family:inherit;outline:none;width:100%;margin-bottom:14px;transition:.15s;box-sizing:border-box;box-shadow:var(--neu-in);}
-.inp:focus{box-shadow:var(--neu-in),0 0 0 1px rgba(244,121,32,0.45);}
+.inp{background:linear-gradient(180deg,#0E1A29,#14243A);border:1px solid rgba(0,0,0,0.5);border-radius:8px;padding:11px 13px;color:var(--text);font-size:14px;font-family:inherit;outline:none;width:100%;margin-bottom:14px;transition:.15s;box-sizing:border-box;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,0.5),inset 0 -1px 0 rgba(255,255,255,0.04);}
+.inp:focus{border-color:#F47920;box-shadow:inset 0 2px 4px rgba(0,0,0,0.5),0 0 0 3px rgba(244,121,32,0.18);}
 .inp::placeholder{color:var(--text3);}
-.btn-login{width:100%;padding:13px;background:#F47920;color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;font-family:inherit;transition:.15s;box-shadow:4px 4px 10px rgba(2,7,14,0.5),-2px -2px 8px rgba(255,150,60,0.15);}
-.btn-login:hover{background:#D4661A;}
-.btn-login:active{box-shadow:var(--neu-in-sm);}
-.btn-login.green{background:#16a34a;}.btn-login.green:hover{background:#15803d;}
-.errmsg{background:var(--navy3);border:none;color:#fca5a5;border-radius:10px;padding:10px 13px;font-size:13px;margin-bottom:14px;display:none;box-shadow:var(--neu-in-sm),0 0 0 1px rgba(239,68,68,0.25) inset;}
-.tabs{display:none;}/* tabs hidden – using flip instead */
+.btn-login{width:100%;padding:13px;background:linear-gradient(180deg,#FFA45C,#F47920 55%,#D4661A);color:#3A1900;border:1px solid #A85212;border-radius:9px;font-size:15px;font-weight:800;cursor:pointer;margin-top:6px;font-family:inherit;transition:.1s;
+  box-shadow:0 3px 0 #A85212,0 6px 14px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.5);text-shadow:0 1px 0 rgba(255,255,255,0.25);}
+.btn-login:hover{filter:brightness(1.04);}
+.btn-login:active{transform:translateY(2px);box-shadow:0 1px 0 #A85212,0 2px 6px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.5);}
+.btn-login.senior{background:linear-gradient(180deg,#FFFFFF,#DCE4EE 55%,#B9C6D6);color:#0D1B2E;border-color:#8CA0B8;box-shadow:0 3px 0 #7C8CA0,0 6px 14px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.85);text-shadow:none;}
+.btn-login.senior:active{box-shadow:0 1px 0 #7C8CA0,0 2px 6px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.85);}
+.btn-login.green{background:linear-gradient(180deg,#5D87B8,#3A6EA5 55%,#2A5480);color:#F0F4FA;border-color:#1F3E5C;box-shadow:0 3px 0 #1F3E5C,0 6px 14px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.35);text-shadow:0 1px 0 rgba(0,0,0,0.25);}
+.btn-login.green:active{box-shadow:0 1px 0 #1F3E5C,0 2px 6px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.35);}
+.errmsg{background:rgba(196,80,26,0.1);border:1px solid rgba(196,80,26,0.3);color:#FFC8A0;border-radius:7px;padding:10px 13px;font-size:13px;margin-bottom:14px;display:none;}
+.tabs{display:none;}/* tabs hidden – using role-switch instead */
 #app{display:none;}
 .layout{display:flex;height:100vh;overflow:hidden;}
 
 /* ═══ SIDEBAR BENTO ═══ */
-.sidebar{width:235px;background:var(--navy2);border:none;box-shadow:var(--neu-flat-lg);display:flex;flex-direction:column;flex-shrink:0;position:relative;z-index:2;border-radius:0 22px 22px 0;}
+.sidebar{width:235px;background:var(--navy2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;}
 .content{flex:1;overflow-y:auto;background:var(--navy);}
 
 /* ═══ PAGE BENTO GRIDS ═══ */
@@ -156,12 +151,12 @@ body.light .ai-box{background:rgba(244,121,32,0.04);}
 .pb-bento{display:grid;gap:14px;padding:20px;grid-template-columns:1fr;}
 @media(min-width:900px){.pb-bento{grid-template-columns:repeat(2,1fr);}}
 @media(min-width:1200px){.pb-bento{grid-template-columns:repeat(3,1fr);}}
-.bento-card{background:var(--navy2);border:none;border-radius:18px;padding:20px;transition:.2s;position:relative;overflow:hidden;box-shadow:var(--neu-flat);}
-.bento-card:hover{transform:translateY(-2px);box-shadow:var(--neu-flat-lg);}
+.bento-card{background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:20px;transition:.2s;position:relative;overflow:hidden;}
+.bento-card:hover{border-color:var(--border2);transform:translateY(-1px);}
 .bento-card.span2{grid-column:span 2;}
 .bento-card.span3{grid-column:span 3;}
-.bento-card.accent{box-shadow:var(--neu-flat),0 0 0 1px rgba(244,121,32,0.2) inset;}
-.bento-card.green{box-shadow:var(--neu-flat),0 0 0 1px rgba(34,197,94,0.18) inset;}
+.bento-card.accent{background:linear-gradient(135deg,rgba(244,121,32,0.08),rgba(244,121,32,0.02));border-color:rgba(244,121,32,0.25);}
+.bento-card.green{background:linear-gradient(135deg,rgba(58,110,165,0.08),rgba(58,110,165,0.02));border-color:rgba(58,110,165,0.2);}
 .bento-card.full{grid-column:1/-1;}
 .bento-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;display:flex;align-items:center;gap:6px;}
 .bento-title::before{content:'';display:block;width:3px;height:12px;border-radius:2px;background:#F47920;}
@@ -180,66 +175,66 @@ body.light .ai-box{background:rgba(244,121,32,0.04);}
 
 /* Standards lib bento */
 #pg-standards .std-bento{display:grid;gap:10px;padding:20px;}
-.logo-bar{padding:16px;border-bottom:none;display:flex;align-items:center;justify-content:space-between;}
+.logo-bar{padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 .logo{font-size:20px;font-weight:800;}.logo span{color:#F47920;}
 .logo-s{font-size:10px;color:var(--text3);letter-spacing:.8px;text-transform:uppercase;margin-top:1px;}
-.user-pill{display:flex;align-items:center;gap:7px;padding:6px 12px;background:var(--topbar-bg);border-radius:999px;cursor:pointer;border:none;box-shadow:var(--neu-flat2-sm);transition:.15s;color:#16283F;}
-.user-pill:active{box-shadow:var(--neu-in2);}
-.uav{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:#F47920;color:#fff;box-shadow:none;}
+.user-pill{display:flex;align-items:center;gap:7px;padding:5px 9px;background:var(--navy3);border-radius:6px;cursor:pointer;border:1px solid var(--border);}
+.uav{width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
 .uav-a{background:rgba(244,121,32,0.2);color:#F47920;}
-.uav-i{background:rgba(34,197,94,0.15);color:#22c55e;}
+.uav-s{background:rgba(255,255,255,0.16);color:#F0F4FA;}
+.uav-i{background:rgba(58,110,165,0.15);color:#3A6EA5;}
 .uname{font-size:12px;font-weight:600;max-width:72px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--text);}
 nav{padding:10px 8px;flex:1;}
 .ns{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;padding:12px 10px 5px;font-weight:700;}
-.ni{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;color:var(--text2);font-size:13px;transition:.15s;margin-bottom:4px;}
-.ni:hover{background:var(--navy2);color:var(--text);box-shadow:var(--neu-flat-sm);}
-.ni.active{background:var(--navy2);color:#F47920;border-left:none;box-shadow:var(--neu-in-sm);}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:7px;cursor:pointer;color:var(--text2);font-size:13px;transition:.15s;margin-bottom:1px;}
+.ni:hover{background:var(--navy3);color:var(--text);}
+.ni.active{background:rgba(244,121,32,0.12);color:#F47920;border-left:2px solid #F47920;}
 .ni.locked{opacity:.35;pointer-events:none;}
 .ni-icon{width:18px;text-align:center;flex-shrink:0;}
 .lock-icon{font-size:10px;margin-left:auto;opacity:.5;}
-.sb-stats{padding:12px 16px;border-top:none;margin:8px 8px 0;}
+.sb-stats{padding:12px 16px;border-top:1px solid var(--border);}
 .ss{display:flex;justify-content:space-between;margin-bottom:5px;}
 .ss-l{font-size:11px;color:var(--text3);}
 .ss-v{font-size:12px;font-weight:700;color:#F47920;}
-.topbar{padding:15px 24px;border-bottom:none;display:flex;align-items:center;justify-content:space-between;background:var(--topbar-bg);flex-shrink:0;position:sticky;top:0;z-index:10;box-shadow:0 4px 16px rgba(163,177,198,0.35);}
-.page-t{font-size:17px;font-weight:700;color:#16283F;}
-.page-s{font-size:12px;color:#5A7396;margin-top:2px;}
+.topbar{padding:15px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--navy2);flex-shrink:0;position:sticky;top:0;z-index:10;}
+.page-t{font-size:17px;font-weight:700;color:var(--text);}
+.page-s{font-size:12px;color:var(--text2);margin-top:2px;}
 .pg{display:none;flex:1;flex-direction:column;}
 .pg.active{display:flex;}
 .pb{padding:20px 24px;flex:1;}
-.card{background:var(--card-bg);border:none;border-radius:22px;margin-bottom:16px;box-shadow:var(--neu-flat-lg),0 10px 26px rgba(10,20,35,0.18);}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;margin-bottom:16px;}
 .ch{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 .ct{font-size:14px;font-weight:600;color:var(--text);}
 .cb{padding:18px;}
 .fg{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
 .fl{font-size:11px;color:var(--text2);font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
-.fi{background:var(--inp-bg);border:none;border-radius:999px;padding:11px 16px;color:#16283F;font-size:14px;font-family:inherit;outline:none;transition:.15s;width:100%;box-shadow:var(--pill-shadow);}
-.fi:focus{box-shadow:var(--pill-shadow),0 0 0 2px rgba(244,121,32,0.45);}
-.fi::placeholder{color:#9BAAC0;}
+.fi{background:var(--navy3);border:1px solid var(--border2);border-radius:7px;padding:10px 12px;color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:.15s;width:100%;}
+.fi:focus{border-color:#F47920;}
+.fi::placeholder{color:var(--text3);}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .full{grid-column:1/-1;}
-.btn{padding:9px 18px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:.15s;display:inline-flex;align-items:center;gap:7px;font-family:inherit;}
-.bp{background:#F47920;color:white;box-shadow:0 4px 12px rgba(244,121,32,0.45);}.bp:hover{background:#D4661A;}.bp:active{box-shadow:var(--neu-in-sm);}
-.bp:disabled{background:var(--navy4);color:var(--text3);cursor:not-allowed;box-shadow:none;}
-.bg{background:var(--navy4);color:var(--text);border:none;box-shadow:var(--neu-flat-sm);}.bg:hover{background:var(--navy3);}.bg:active{box-shadow:var(--neu-in-sm);}
-.bd{background:#FFFFFF;color:#ef4444;border:none;box-shadow:var(--pill-shadow);}.bd:hover{background:#FEF2F2;}
-.bs{background:#FFFFFF;color:#16a34a;border:none;box-shadow:var(--pill-shadow);}.bs:hover{background:#F0FDF4;}
-.sm{padding:5px 13px;font-size:12px;}
+.btn{padding:9px 16px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:.15s;display:inline-flex;align-items:center;gap:7px;font-family:inherit;}
+.bp{background:#F47920;color:white;}.bp:hover{background:#D4661A;}
+.bp:disabled{background:var(--navy4);color:var(--text3);cursor:not-allowed;}
+.bg{background:transparent;color:var(--text2);border:1px solid var(--border2);}.bg:hover{background:var(--navy3);color:var(--text);}
+.bd{background:rgba(196,80,26,0.1);color:#C4501A;border:1px solid rgba(196,80,26,0.2);}.bd:hover{background:rgba(196,80,26,0.2);}
+.bs{background:rgba(58,110,165,0.1);color:#3A6EA5;border:1px solid rgba(58,110,165,0.2);}.bs:hover{background:rgba(58,110,165,0.2);}
+.sm{padding:5px 11px;font-size:12px;}
 .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;box-shadow:var(--neu-in-sm);}
-.bo{background:var(--navy2);color:#F47920;}
-.bgreen{background:var(--navy2);color:#22c55e;}
-.bgray{background:var(--navy2);color:var(--text3);}
+.badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;}
+.bo{background:rgba(244,121,32,0.15);color:#F47920;}
+.bgreen{background:rgba(58,110,165,0.12);color:#3A6EA5;}
+.bgray{background:rgba(255,255,255,0.06);color:var(--text3);}
 .empty{text-align:center;padding:50px 20px;color:var(--text3);}
 .empty-i{font-size:36px;margin-bottom:11px;}
 .empty-t{font-size:15px;color:var(--text2);margin-bottom:4px;font-weight:500;}
-.uz{border:none;border-radius:16px;padding:26px;text-align:center;cursor:pointer;transition:.2s;background:var(--navy3);box-shadow:var(--neu-in);}
-.uz:hover,.uz.over{box-shadow:var(--neu-in),0 0 0 1px rgba(244,121,32,0.3) inset;}
+.uz{border:2px dashed var(--border2);border-radius:10px;padding:26px;text-align:center;cursor:pointer;transition:.2s;background:var(--navy3);}
+.uz:hover,.uz.over{border-color:#F47920;background:rgba(244,121,32,0.06);}
 .uz-i{font-size:28px;margin-bottom:9px;}
 .uz-t{font-size:14px;color:var(--text2);}
 .uz-s{font-size:12px;color:var(--text3);margin-top:3px;}
 input[type=file]{display:none;}
-.rc{background:var(--card-bg);border:none;border-radius:16px;margin-bottom:14px;overflow:hidden;box-shadow:var(--neu-flat);}
+.rc{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden;}
 .rch{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;}
 .dg{display:grid;grid-template-columns:repeat(4,1fr);}
 .di{padding:12px 18px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
@@ -247,27 +242,27 @@ input[type=file]{display:none;}
 .dk{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px;font-weight:600;}
 .dv{font-size:13px;font-weight:500;color:var(--text);}
 .mr{padding:11px 18px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;border-bottom:1px solid var(--border);}
-.mt{background:var(--navy2);border:none;padding:3px 9px;border-radius:6px;font-size:11px;font-family:monospace;color:var(--text2);box-shadow:var(--neu-in-sm);}
+.mt{background:var(--navy3);border:1px solid var(--border2);padding:3px 9px;border-radius:5px;font-size:11px;font-family:monospace;color:var(--text2);}
 .pr{padding:13px 18px;}
-.pb-box{border-radius:12px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--navy2);border:none;box-shadow:var(--neu-flat-sm);}
-.pb-found{box-shadow:var(--neu-flat-sm),0 0 0 1px rgba(34,197,94,0.18) inset;}
-.pb-miss{box-shadow:var(--neu-flat-sm),0 0 0 1px rgba(245,158,11,0.18) inset;}
-.pb-found h4{color:#22c55e;font-size:13px;font-weight:600;margin-bottom:3px;}
-.pb-miss h4{color:#f59e0b;font-size:13px;font-weight:600;margin-bottom:3px;}
+.pb-box{border-radius:8px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.pb-found{background:rgba(58,110,165,0.08);border:1px solid rgba(58,110,165,0.2);}
+.pb-miss{background:rgba(244,121,32,0.08);border:1px solid rgba(244,121,32,0.2);}
+.pb-found h4{color:#3A6EA5;font-size:13px;font-weight:600;margin-bottom:3px;}
+.pb-miss h4{color:#F47920;font-size:13px;font-weight:600;margin-bottom:3px;}
 .pb-p{font-size:12px;color:var(--text2);}
-.ai-box{background:var(--navy2);border:none;border-radius:12px;padding:13px 16px;margin-top:10px;box-shadow:var(--neu-in-sm),0 0 0 1px rgba(244,121,32,0.12) inset;}
+.ai-box{background:rgba(244,121,32,0.06);border:1px solid rgba(244,121,32,0.2);border-radius:8px;padding:13px 16px;margin-top:10px;}
 .ai-t{font-size:11px;font-weight:700;color:#F47920;text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px;}
 .ai-b{font-size:13px;color:var(--text2);line-height:1.7;}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;}
-.dtag{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;background:var(--navy2);color:#fca5a5;border:none;box-shadow:var(--neu-in-sm);}
-.ctag{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;background:var(--navy2);color:#93c5fd;border:none;box-shadow:var(--neu-in-sm);}
-.ac-drop{background:var(--card-bg);border:none;border-radius:12px;overflow:hidden;max-height:200px;overflow-y:auto;margin-top:6px;box-shadow:var(--neu-flat-lg);}
+.dtag{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;background:rgba(196,80,26,0.1);color:#FFC8A0;border:1px solid rgba(196,80,26,0.2);}
+.ctag{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;background:rgba(59,130,246,0.1);color:#93c5fd;border:1px solid rgba(59,130,246,0.2);}
+.ac-drop{background:var(--navy3);border:1px solid var(--border2);border-radius:8px;overflow:hidden;max-height:200px;overflow-y:auto;margin-top:4px;}
 .ac-i{padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);}
 .ac-i:hover{background:var(--navy4);}
 .ac-pno{font-family:monospace;font-size:12px;color:#F47920;min-width:130px;}
 .ac-nm{color:var(--text2);font-size:12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .dt{width:100%;border-collapse:collapse;font-size:13px;}
-.dt th{text-align:left;padding:10px 14px;background:var(--navy3);color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;border-bottom:none;box-shadow:var(--neu-in-sm);}
+.dt th{text-align:left;padding:10px 14px;background:var(--navy3);color:var(--text3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);}
 .dt td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text);}
 .dt tr:last-child td{border-bottom:none;}
 .dt tr:hover td{background:rgba(255,255,255,0.015);}
@@ -276,24 +271,24 @@ input[type=file]{display:none;}
 .vh{background:var(--navy2);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .vt{font-weight:700;font-size:14px;color:var(--text);}
 .vi{flex:1;border:none;}
-.toast{position:fixed;bottom:22px;right:22px;background:var(--navy2);border:none;border-radius:12px;padding:12px 18px;font-size:13px;z-index:9999;transform:translateY(70px);opacity:0;transition:.3s;pointer-events:none;max-width:340px;color:var(--text);box-shadow:var(--neu-flat-lg);}
+.toast{position:fixed;bottom:22px;right:22px;background:var(--navy2);border:1px solid var(--border2);border-radius:8px;padding:12px 18px;font-size:13px;z-index:9999;transform:translateY(70px);opacity:0;transition:.3s;pointer-events:none;max-width:340px;color:var(--text);}
 .toast.show{transform:translateY(0);opacity:1;}
-.toast.ok{border-color:rgba(34,197,94,0.4);}
-.toast.err{border-color:rgba(239,68,68,0.4);}
-.sync-pill{position:fixed;top:14px;right:20px;background:var(--navy3);border:none;border-radius:20px;padding:5px 13px;font-size:11px;font-weight:600;z-index:500;display:none;align-items:center;gap:7px;color:var(--text);box-shadow:var(--neu-flat-sm);}
-.sd{width:7px;height:7px;border-radius:50%;background:#22c55e;}
-.sd.off{background:#ef4444;}
-.sd.syn{background:#f59e0b;animation:pulse 1s infinite;}
+.toast.ok{border-color:rgba(58,110,165,0.4);}
+.toast.err{border-color:rgba(196,80,26,0.4);}
+.sync-pill{position:fixed;top:14px;right:20px;background:var(--navy3);border:1px solid var(--border2);border-radius:20px;padding:5px 13px;font-size:11px;font-weight:600;z-index:500;display:none;align-items:center;gap:7px;color:var(--text);}
+.sd{width:7px;height:7px;border-radius:50%;background:#3A6EA5;}
+.sd.off{background:#C4501A;}
+.sd.syn{background:#F47920;animation:pulse 1s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-.xcard{background:var(--navy2);border:none;border-radius:16px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;box-shadow:var(--neu-flat),0 0 0 1px rgba(244,121,32,0.15) inset;}
-.bi{background:var(--navy2);border:none;border-radius:12px;padding:12px 14px;margin-bottom:8px;box-shadow:var(--neu-flat-sm);}
+.xcard{background:rgba(244,121,32,0.07);border:1px solid rgba(244,121,32,0.2);border-radius:10px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.bi{background:#1A2F47;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:12px 14px;margin-bottom:8px;}
 .bih{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
 .bin{font-size:13px;font-weight:500;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:320px;}
 .bs2{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;}
 .sp{background:rgba(255,255,255,0.06);color:#4A6080;}
 .spro{background:rgba(244,121,32,0.15);color:#F47920;}
-.sdk{background:rgba(34,197,94,0.12);color:#22c55e;}
-.ser{background:rgba(239,68,68,0.12);color:#ef4444;}
+.sdk{background:rgba(58,110,165,0.12);color:#3A6EA5;}
+.ser{background:rgba(196,80,26,0.12);color:#C4501A;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:#213858;border-radius:10px;}
 
 /* ═══════════ CAR DRIFT INTRO ANIMATION (pure CSS, no JS dependency) ═══════════ */
@@ -380,6 +375,104 @@ input[type=file]{display:none;}
 @media (prefers-reduced-motion: reduce) {
   #car-intro { display: none !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   SKEUOMORPHIC DESIGN LAYER — navy / orange / white only
+   Raised, beveled, glossy surfaces on top of the existing
+   flat classes. Nothing structural changes, only depth/finish.
+   ═══════════════════════════════════════════════════════════ */
+
+/* -- app scrollbar: brushed-metal track -- */
+::-webkit-scrollbar{width:11px;height:11px;}
+::-webkit-scrollbar-track{background:var(--navy);}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#3A4E68,#213858);border-radius:6px;border:2px solid var(--navy);}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#4A6080,#2C4666);}
+
+/* -- sidebar: brushed panel with edge highlight -- */
+.sidebar{background:linear-gradient(180deg,#16273D,#0F1E30);box-shadow:1px 0 0 rgba(255,255,255,0.04) inset,4px 0 16px rgba(0,0,0,0.25);}
+.logo-bar{box-shadow:0 1px 0 rgba(255,255,255,0.05);}
+
+/* -- nav items: pressable badges -- */
+.ni{border:1px solid transparent;}
+.ni:hover{background:linear-gradient(180deg,#1E3653,#182C46);box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);}
+.ni.active{background:linear-gradient(180deg,#FFA45C,#F47920 60%,#D4661A);color:#2B1200;font-weight:800;border:1px solid #A85212;
+  box-shadow:0 2px 5px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.5);border-left:3px solid #A85212;text-shadow:0 1px 0 rgba(255,255,255,0.25);}
+.ni.active .ni-icon{filter:none;}
+
+/* -- topbar: gloss strip -- */
+.topbar{background:linear-gradient(180deg,#182C46,#132336);box-shadow:0 1px 0 rgba(255,255,255,0.05) inset,0 4px 10px rgba(0,0,0,0.2);}
+
+/* -- user pill / sync pill / avatar: embossed chip -- */
+.user-pill,.sync-pill,.theme-toggle,.mt{background:linear-gradient(180deg,#213858,#182C46);border:1px solid rgba(0,0,0,0.35);
+  box-shadow:0 1px 0 rgba(255,255,255,0.06) inset,0 2px 4px rgba(0,0,0,0.25);}
+.uav{box-shadow:0 1px 0 rgba(255,255,255,0.4) inset,0 2px 4px rgba(0,0,0,0.3);border:1px solid rgba(0,0,0,0.3);}
+
+/* -- cards: raised panel with soft top highlight -- */
+.card,.bento-card,.rc,.insp-quickcard{background:linear-gradient(180deg,#16273D,#122036);border:1px solid rgba(0,0,0,0.3);
+  box-shadow:0 1px 0 rgba(255,255,255,0.05) inset,0 6px 18px rgba(0,0,0,0.25);}
+.card:hover,.bento-card:hover,.insp-quickcard:hover{box-shadow:0 1px 0 rgba(255,255,255,0.07) inset,0 10px 26px rgba(0,0,0,0.32);}
+.ch,.vh{background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(0,0,0,0));}
+
+/* -- inputs / filters / dropdowns: recessed (inset) fields -- */
+.inp,.fi,select.inp,select.fi{background:linear-gradient(180deg,#0E1A29,#152539);border:1px solid rgba(0,0,0,0.45);
+  box-shadow:inset 0 2px 5px rgba(0,0,0,0.45),inset 0 -1px 0 rgba(255,255,255,0.04);}
+.inp:focus,.fi:focus{box-shadow:inset 0 2px 5px rgba(0,0,0,0.45),0 0 0 3px rgba(244,121,32,0.18);}
+.ac-drop{background:linear-gradient(180deg,#16273D,#0F1E30);box-shadow:0 10px 24px rgba(0,0,0,0.4);}
+.uz{background:linear-gradient(180deg,#0E1A29,#152539);box-shadow:inset 0 2px 6px rgba(0,0,0,0.4);}
+
+/* -- buttons: glossy raised keycaps -- */
+.btn{border:1px solid rgba(0,0,0,0.35);position:relative;}
+.bp{background:linear-gradient(180deg,#FFA45C,#F47920 55%,#D4661A);color:#3A1900;border-color:#A85212;font-weight:700;
+  box-shadow:0 3px 0 #A85212,0 6px 12px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.5);text-shadow:0 1px 0 rgba(255,255,255,0.25);}
+.bp:hover{filter:brightness(1.05);}
+.bp:active{transform:translateY(2px);box-shadow:0 1px 0 #A85212,0 2px 6px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.5);}
+.bp:disabled{background:linear-gradient(180deg,#2C4666,#213858);color:var(--text3);box-shadow:none;border-color:rgba(0,0,0,0.2);}
+.bg{background:linear-gradient(180deg,#1E3653,#182C46);border:1px solid rgba(0,0,0,0.35);
+  box-shadow:0 2px 0 rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.05);}
+.bg:hover{background:linear-gradient(180deg,#25405F,#1E3653);color:var(--text);}
+.bg:active{transform:translateY(1px);}
+.dots-btn{background:linear-gradient(180deg,#1E3653,#182C46);border-radius:8px;box-shadow:0 1px 0 rgba(255,255,255,0.05) inset;}
+
+/* -- data tables: engraved header row -- */
+.dt th{background:linear-gradient(180deg,#213858,#1A2F47);box-shadow:inset 0 1px 0 rgba(255,255,255,0.06),0 1px 0 rgba(0,0,0,0.3);}
+.dt tr:hover td{background:rgba(255,255,255,0.02);}
+
+/* -- toasts / dots menu: floating glass card -- */
+.toast,.dots-menu{background:linear-gradient(180deg,#1E3653,#152539);box-shadow:0 1px 0 rgba(255,255,255,0.06) inset,0 14px 34px rgba(0,0,0,0.45);}
+
+/* -- xcard / badges / tags -- */
+.xcard{background:linear-gradient(180deg,rgba(244,121,32,0.1),rgba(244,121,32,0.03));box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);}
+.role-badge{box-shadow:inset 0 1px 0 rgba(255,255,255,0.06);}
+
+/* -- light theme: keep skeuomorphism, swap tone to warm-white / paper card look -- */
+body.light .sidebar{background:linear-gradient(180deg,#FFFFFF,#F3F6FB);box-shadow:1px 0 0 rgba(0,0,0,0.04) inset,4px 0 14px rgba(0,0,0,0.06);}
+body.light .topbar{background:linear-gradient(180deg,#FFFFFF,#F3F6FB);box-shadow:0 1px 0 rgba(255,255,255,0.6) inset,0 3px 8px rgba(0,0,0,0.06);}
+body.light .card,body.light .bento-card,body.light .rc,body.light .insp-quickcard{background:linear-gradient(180deg,#FFFFFF,#F7F9FC);
+  box-shadow:0 1px 0 rgba(255,255,255,0.7) inset,0 6px 16px rgba(0,0,0,0.07);}
+body.light .inp,body.light .fi{background:linear-gradient(180deg,#EDF1F7,#F7F9FC);box-shadow:inset 0 2px 4px rgba(0,0,0,0.08);}
+body.light .user-pill,body.light .sync-pill,body.light .theme-toggle,body.light .mt{background:linear-gradient(180deg,#FFFFFF,#EDF1F7);
+  box-shadow:0 1px 0 rgba(255,255,255,0.7) inset,0 2px 5px rgba(0,0,0,0.06);}
+body.light .ni:hover{background:linear-gradient(180deg,#FFFFFF,#EEF2F8);}
+body.light .dt th{background:linear-gradient(180deg,#F7F9FC,#EDF1F7);}
+body.light ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#C7D2DE,#AEBBCB);border-color:var(--navy);}
+
+/* ═══ LIVE CLOCK — skeuomorphic LCD watch face ═══ */
+.mq-clock{display:flex;align-items:center;gap:8px;margin:0 16px 12px;padding:9px 12px;border-radius:10px;
+  background:linear-gradient(180deg,#0A1420,#0D1B2E);border:1px solid rgba(0,0,0,0.5);
+  box-shadow:inset 0 2px 6px rgba(0,0,0,0.6),inset 0 -1px 0 rgba(255,255,255,0.04),0 1px 0 rgba(255,255,255,0.03);}
+.mq-clock-dot{width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFB067,#F47920 60%,#A85212);
+  box-shadow:0 0 6px rgba(244,121,32,0.8);flex-shrink:0;animation:mqPulse 2s ease-in-out infinite;}
+@keyframes mqPulse{0%,100%{opacity:1;}50%{opacity:.45;}}
+.mq-clock-time{font-family:"Courier New",monospace;font-size:15px;font-weight:800;letter-spacing:1.5px;color:#F47920;
+  text-shadow:0 0 8px rgba(244,121,32,0.55);flex:1;}
+.mq-clock-date{font-size:9px;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;margin-left:auto;text-align:right;line-height:1.3;}
+body.light .mq-clock{background:linear-gradient(180deg,#1A2F47,#0D1B2E);}
+
+/* ═══ "PREPARED BY" CREDIT LINE ═══ */
+.mq-credit{padding:8px 16px 14px;font-size:10px;color:var(--text3);text-align:center;letter-spacing:.4px;border-top:1px solid var(--border);}
+.mq-credit b{color:var(--orange);font-weight:700;}
+.login-credit{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:.5px;z-index:10;}
+.login-credit b{color:#F47920;}
 </style>
 </head>
 <body>
@@ -466,42 +559,56 @@ input[type=file]{display:none;}
     </div>
   </div>
 
-  <!-- FLIP CARD LOGIN -->
+  <!-- LOGIN CARD — 3-WAY SKEUOMORPHIC ROLE SWITCH -->
   <div class="flip-wrap">
     <div class="flip-inner" id="flip-inner">
-
-      <!-- FRONT: Inspector -->
       <div class="flip-face">
         <div class="flip-header">
           <div class="flip-logo"><span>+</span>maswer</div>
-          <div class="flip-role-chip chip-inspector" onclick="flipToAdmin()" title="Switch to Admin login">🔐 Admin →</div>
         </div>
-        <div class="role-badge badge-inspector">🔍 Inspector — Read Only Access</div>
-        <div class="errmsg" id="err-msg-insp"></div>
-        <label class="label">Name</label>
-        <input type="text" class="inp" id="inp-name-insp" placeholder="Enter your name">
-        <label class="label">Password</label>
-        <input type="password" class="inp" id="inp-pass-insp" placeholder="Enter inspector password" onkeydown="if(event.key==='Enter')doLoginFace('inspector')">
-        <button class="btn-login green" onclick="doLoginFace('inspector')">Login as Inspector →</button>
-        <div class="flip-hint">Tap <strong style="color:#F47920">Admin →</strong> top-right to switch</div>
-      </div>
 
-      <!-- BACK: Admin -->
-      <div class="flip-face flip-back">
-        <div class="flip-header">
-          <div class="flip-logo"><span>+</span>maswer</div>
-          <div class="flip-role-chip chip-admin" onclick="flipToInspector()" title="Switch to Inspector login">🔍 Inspector →</div>
+        <!-- role badge selector — 3 physical-style keys -->
+        <div class="role-switch" id="role-switch">
+          <div class="role-key rk-inspector" onclick="selectRole('inspector')" id="rk-inspector">🔍 Inspector</div>
+          <div class="role-key rk-senior" onclick="selectRole('senior')" id="rk-senior">🛡️ Senior</div>
+          <div class="role-key rk-admin" onclick="selectRole('admin')" id="rk-admin">🔐 Admin</div>
         </div>
-        <div class="role-badge badge-admin">🔐 Admin — Full Access (Add, Delete, Manage)</div>
-        <div class="errmsg" id="err-msg-admin"></div>
-        <label class="label">Name</label>
-        <input type="text" class="inp" id="inp-name-admin" placeholder="Enter your name">
-        <label class="label">Password</label>
-        <input type="password" class="inp" id="inp-pass-admin" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLoginFace('admin')">
-        <button class="btn-login" onclick="doLoginFace('admin')">Login as Admin →</button>
-        <div class="flip-hint">Tap <strong style="color:#22c55e">Inspector →</strong> top-right to switch</div>
-      </div>
 
+        <!-- INSPECTOR PANEL -->
+        <div class="role-panel" id="panel-inspector">
+          <div class="role-badge badge-inspector">🔍 Inspector — Read Only Access</div>
+          <div class="errmsg" id="err-msg-insp"></div>
+          <label class="label">Name</label>
+          <input type="text" class="inp" id="inp-name-insp" placeholder="Enter your name">
+          <label class="label">Password</label>
+          <input type="password" class="inp" id="inp-pass-insp" placeholder="Enter inspector password" onkeydown="if(event.key==='Enter')doLoginFace('inspector')">
+          <button class="btn-login green" onclick="doLoginFace('inspector')">Login as Inspector →</button>
+        </div>
+
+        <!-- SENIOR PANEL -->
+        <div class="role-panel" id="panel-senior" style="display:none">
+          <div class="role-badge badge-senior">🛡️ Senior — Verify &amp; Edit Access</div>
+          <div class="errmsg" id="err-msg-senior"></div>
+          <label class="label">Name</label>
+          <input type="text" class="inp" id="inp-name-senior" placeholder="Enter your name">
+          <label class="label">Password</label>
+          <input type="password" class="inp" id="inp-pass-senior" placeholder="Enter senior password" onkeydown="if(event.key==='Enter')doLoginFace('senior')">
+          <button class="btn-login senior" onclick="doLoginFace('senior')">Login as Senior →</button>
+        </div>
+
+        <!-- ADMIN PANEL -->
+        <div class="role-panel" id="panel-admin" style="display:none">
+          <div class="role-badge badge-admin">🔐 Admin — Full Access (Add, Delete, Manage)</div>
+          <div class="errmsg" id="err-msg-admin"></div>
+          <label class="label">Name</label>
+          <input type="text" class="inp" id="inp-name-admin" placeholder="Enter your name">
+          <label class="label">Password</label>
+          <input type="password" class="inp" id="inp-pass-admin" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLoginFace('admin')">
+          <button class="btn-login" onclick="doLoginFace('admin')">Login as Admin →</button>
+        </div>
+
+        <div class="flip-hint">Tap a badge above to switch login role</div>
+      </div>
     </div>
   </div>
 
@@ -512,6 +619,8 @@ input[type=file]{display:none;}
     <div id="err-msg"></div>
     <input id="inp-name"><input id="inp-pass">
   </div>
+
+  <div class="login-credit">Prepared by <b>Vivek Singh</b></div>
 </div>
 
 <!-- 3-DOT MENU OVERLAY -->
@@ -552,22 +661,28 @@ input[type=file]{display:none;}
         <div class="ni" id="n-export" onclick="gotoPage('export')"><span class="ni-icon">⬇️</span>Export Data</div>
         <div class="ni" id="n-settings" onclick="adminOnly('settings')"><span class="ni-icon">⚙️</span>Settings<span class="lock-icon" id="lk-settings"></span></div>
       </nav>
+      <div class="mq-clock" id="mq-clock">
+        <span class="mq-clock-dot"></span>
+        <span class="mq-clock-time" id="mq-clock-time">--:--:--</span>
+        <span class="mq-clock-date" id="mq-clock-date">—</span>
+      </div>
       <div class="sb-stats">
         <div class="ss"><span class="ss-l">Parts DB</span><span class="ss-v" id="st-parts">—</span></div>
         <div class="ss"><span class="ss-l">PDFs Linked</span><span class="ss-v" id="st-pdfs">—</span></div>
         <div class="ss"><span class="ss-l">AI Summaries</span><span class="ss-v" id="st-ai">—</span></div>
       </div>
+      <div class="mq-credit">Prepared by <b>Vivek Singh</b></div>
     </div>
     <div class="content">
 
       <!-- INSPECTION START -->
       <div class="pg active" id="pg-inspect">
-        <div class="topbar" style="background:var(--topbar-bg);border-bottom:none;">
+        <div class="topbar" style="background:linear-gradient(135deg,#0D1B2E 0%,#132336 100%);border-bottom:2px solid rgba(244,121,32,0.3);">
           <div style="display:flex;align-items:center;gap:16px;">
-            <div style="background:#FFFFFF;border-radius:14px;padding:8px 14px;display:flex;align-items:center;gap:8px;box-shadow:var(--neu-flat2-sm);">
+            <div style="background:rgba(244,121,32,0.15);border:2px solid rgba(244,121,32,0.4);border-radius:12px;padding:8px 14px;display:flex;align-items:center;gap:8px;">
               <span style="font-size:22px;font-weight:900;color:#F47920;">+</span>
               <div>
-                <div style="font-size:16px;font-weight:800;color:#16283F;line-height:1;">maswer</div>
+                <div style="font-size:16px;font-weight:800;color:#F0F4FA;line-height:1;">maswer</div>
                 <div style="font-size:8px;color:#F47920;letter-spacing:1.5px;text-transform:uppercase;">Quality Control</div>
               </div>
             </div>
@@ -576,29 +691,29 @@ input[type=file]{display:none;}
               <div class="page-s">Enter part number to begin inspection</div>
             </div>
           </div>
-        <div id="insp-time" style="font-size:12px;color:#5A7396;text-align:right;display:flex;align-items:center;gap:10px;">
+        <div id="insp-time" style="font-size:12px;color:var(--text2);text-align:right;display:flex;align-items:center;gap:10px;">
           <span id="insp-time-txt"></span>
           <button class="dots-btn" onclick="openDotsMenu(this,'inspect')" title="More options">⋮</button>
         </div>
         </div>
-        <div class="pb" style="background:linear-gradient(180deg,rgba(244,121,32,0.05) 0%,transparent 300px);">
+        <div class="pb" style="background:linear-gradient(180deg,rgba(244,121,32,0.03) 0%,transparent 300px);">
 
           <!-- BIG SEARCH BAR -->
           <div style="max-width:700px;margin:0 auto 30px;">
-            <div style="text-align:center;margin-bottom:22px;">
-              <div style="font-size:12px;color:#8BA0BF;text-transform:uppercase;letter-spacing:2px;font-weight:700;">🔎 Scan or Enter Part Number</div>
+            <div style="text-align:center;margin-bottom:20px;">
+              <div style="font-size:13px;color:#8BA0BF;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;">Scan or Enter Part Number</div>
             </div>
-            <div style="position:relative;background:var(--navy2);border-radius:22px;padding:10px;box-shadow:var(--neu-flat-lg),0 12px 28px rgba(10,20,35,0.25);">
-              <span style="position:absolute;left:30px;top:50%;transform:translateY(-50%);font-size:20px;opacity:.6;z-index:2;">🔍</span>
-              <input type="text" id="insp-inp" class="fi"
-                placeholder="e.g. 84701M80T70"
-                style="font-size:20px;font-weight:700;font-family:monospace;padding:16px 130px 16px 58px;border-radius:999px;background:#FFFFFF;color:#16283F;letter-spacing:1px;box-shadow:var(--neu-in-sm);width:100%;box-sizing:border-box;"
+            <div style="position:relative;">
+              <span style="position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:22px;">🔍</span>
+              <input type="text" id="insp-inp" class="fi" 
+                placeholder="e.g. 84701M80T70" 
+                style="font-size:22px;font-weight:700;font-family:monospace;padding:18px 18px 18px 56px;border:2px solid rgba(244,121,32,0.3);border-radius:12px;background:#1A2F47;letter-spacing:1px;"
                 oninput="inspAC(this.value)"
                 onkeydown="if(event.key==='Enter')inspSearch()"
                 autofocus>
-              <button onclick="inspSearch()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:#F47920;border:none;border-radius:999px;padding:12px 26px;color:white;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(244,121,32,0.5);transition:.15s;">Search</button>
+              <button onclick="inspSearch()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#F47920;border:none;border-radius:8px;padding:10px 20px;color:white;font-size:14px;font-weight:700;cursor:pointer;">Search</button>
             </div>
-            <div id="insp-ac" style="display:none;margin-top:8px;">
+            <div id="insp-ac" style="display:none;margin-top:4px;">
               <div class="ac-drop" id="insp-ac-list"></div>
             </div>
           </div>
@@ -2161,8 +2276,8 @@ xlsx/xlsx.mjs:
 // ════════════════════════════════════════════
 //  SUPABASE INIT (replaces Firebase)
 // ════════════════════════════════════════════
-const SUPABASE_URL = "https://dkghtchzxswgttytocde.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_-wzHxZFhUxzXTTCpKX33mQ_-q9AdUkN";
+const SUPABASE_URL = "https://ipgamhlgpayndgqixyvn.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwZ2FtaGxncGF5bmRncWl4eXZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NDg3NzcsImV4cCI6MjA5NzMyNDc3N30.KAcWUhzwx6grcokBqFvhy19AY95gDvSUozBi6U5_6No";
 const _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 console.log("Supabase OK");
 
@@ -2181,7 +2296,7 @@ let bkFiles = [];
 let bkMode = "manual";
 // unsubFB removed – no live listener, one-time fetch only
 
-const PASS = { admin: "admin123", inspector: "insp123" };
+const PASS = { admin: "admin123", senior: "senior123", inspector: "insp123" };
 
 // ════════════════════════════════════════════
 //  SYNC
@@ -2368,33 +2483,32 @@ async function fbDelAll() {
 }
 
 // ════════════════════════════════════════════
-//  LOGIN / LOGOUT — FLIP CARD VERSION
+//  LOGIN / LOGOUT — 3-WAY ROLE SWITCH VERSION
 // ════════════════════════════════════════════
-let _currentFace = "inspector"; // default face shown on open
+const ROLE_ORDER = ["inspector", "senior", "admin"];
 
-function flipToAdmin() {
-  _currentFace = "admin";
-  loginRole = "admin";
-  document.getElementById("flip-inner").classList.add("flipped");
-  setTimeout(() => document.getElementById("inp-name-admin").focus(), 350);
-}
-function flipToInspector() {
-  _currentFace = "inspector";
-  loginRole = "inspector";
-  document.getElementById("flip-inner").classList.remove("flipped");
-  setTimeout(() => document.getElementById("inp-name-insp").focus(), 350);
-}
-
-function setRole(r) {
+function selectRole(r) {
   loginRole = r;
-  // legacy compat – kept for doLogout reset
-  if (r === "admin") flipToAdmin(); else flipToInspector();
+  ROLE_ORDER.forEach(function(k) {
+    var key = document.getElementById("rk-" + k);
+    var panel = document.getElementById("panel-" + k);
+    if (key) key.classList.toggle("active", k === r);
+    if (panel) panel.style.display = (k === r) ? "block" : "none";
+  });
+  var nameId = r === "admin" ? "inp-name-admin" : r === "senior" ? "inp-name-senior" : "inp-name-insp";
+  var el = document.getElementById(nameId);
+  if (el) setTimeout(function(){ el.focus(); }, 150);
 }
+
+// legacy aliases so any older references still work
+function flipToAdmin() { selectRole("admin"); }
+function flipToInspector() { selectRole("inspector"); }
+function setRole(r) { selectRole(r || "inspector"); }
 
 function doLoginFace(face) {
-  const nameId = face === "admin" ? "inp-name-admin" : "inp-name-insp";
-  const passId = face === "admin" ? "inp-pass-admin" : "inp-pass-insp";
-  const errId  = face === "admin" ? "err-msg-admin" : "err-msg-insp";
+  const nameId = face === "admin" ? "inp-name-admin" : face === "senior" ? "inp-name-senior" : "inp-name-insp";
+  const passId = face === "admin" ? "inp-pass-admin" : face === "senior" ? "inp-pass-senior" : "inp-pass-insp";
+  const errId  = face === "admin" ? "err-msg-admin" : face === "senior" ? "err-msg-senior" : "err-msg-insp";
   const name = document.getElementById(nameId).value.trim();
   const pass = document.getElementById(passId).value;
   const err  = document.getElementById(errId);
@@ -2418,7 +2532,7 @@ function doLoginFace(face) {
 }
 
 function doLogin() {
-  // legacy fallback – redirect to face-based login
+  // legacy fallback – redirect to role-based login
   doLoginFace(loginRole || "inspector");
 }
 
@@ -2432,11 +2546,13 @@ function doLogout() {
   document.getElementById("app").style.display = "none";
   document.getElementById("sync-pill").style.display = "none";
   document.getElementById("inp-pass-insp").value = "";
+  document.getElementById("inp-pass-senior").value = "";
   document.getElementById("inp-pass-admin").value = "";
   document.getElementById("err-msg-insp").style.display = "none";
+  document.getElementById("err-msg-senior").style.display = "none";
   document.getElementById("err-msg-admin").style.display = "none";
-  // Reset to inspector face
-  flipToInspector();
+  // Reset to inspector panel
+  selectRole("inspector");
 }
 
 // ── THEME TOGGLE ──
@@ -2459,6 +2575,20 @@ function toggleTheme() {
     if (appBtn) appBtn.textContent = "☀️";
   }
 })();
+
+// ── LIVE CLOCK (sidebar watch) ──
+function tickClock() {
+  const tEl = document.getElementById("mq-clock-time");
+  const dEl = document.getElementById("mq-clock-date");
+  if (!tEl && !dEl) return;
+  const now = new Date();
+  const time = now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true });
+  const date = now.toLocaleDateString("en-IN", { weekday: "short", day: "2-digit", month: "short" });
+  if (tEl) tEl.textContent = time;
+  if (dEl) dEl.textContent = date;
+}
+tickClock();
+setInterval(tickClock, 1000);
 
 // ── 3-DOT MENU ──
 const DOTS_MENUS = {
@@ -2495,23 +2625,27 @@ function closeDotsMenu() {
   document.getElementById("dots-overlay").classList.remove("open");
 }
 
+// Senior has the same edit/manage rights as Admin (elevated access),
+// just a distinct login persona/badge. Change this if Senior should be restricted.
+function isElevated() { return role === "admin" || role === "senior"; }
+
 function setupUI() {
   const av = document.getElementById("uav");
-  av.textContent = role === "admin" ? "A" : "I";
-  av.className = "uav " + (role === "admin" ? "uav-a" : "uav-i");
+  av.textContent = role === "admin" ? "A" : role === "senior" ? "S" : "I";
+  av.className = "uav " + (role === "admin" ? "uav-a" : role === "senior" ? "uav-s" : "uav-i");
   document.getElementById("uname").textContent = userName;
   ["add","bulk","parts","settings"].forEach(id => {
     const n = document.getElementById("n-" + id);
     const l = document.getElementById("lk-" + id);
-    if (role !== "admin") { n.classList.add("locked"); if(l) l.textContent = "🔒"; }
+    if (!isElevated()) { n.classList.add("locked"); if(l) l.textContent = "🔒"; }
     else { n.classList.remove("locked"); if(l) l.textContent = ""; }
   });
   const sab = document.getElementById("std-add-btn");
-  if (sab) sab.style.display = role === "admin" ? "inline-flex" : "none";
+  if (sab) sab.style.display = isElevated() ? "inline-flex" : "none";
 }
 
 function adminOnly(pg) {
-  if (role !== "admin") { toast("🔒 Admin only", "err"); return; }
+  if (!isElevated()) { toast("🔒 Admin/Senior only", "err"); return; }
   gotoPage(pg);
 }
 
@@ -2624,12 +2758,12 @@ function renderResult(pno, items, cont) {
   const vn = [...new Set(items.map(i => i.vn).filter(Boolean))].join(", ");
   const vc = [...new Set(items.map(i => i.vc).filter(Boolean))].join(", ");
   const ai = pdf && pdf.aiSummary;
-  const isAdm = role === "admin";
+  const isAdm = isElevated();
   // Packaging status - compute before innerHTML
   var _pkg=getPackagingStatus(pno);
   var _pkgMod=(_pkg.status==="modified");
   var _pkgLabel=_pkgMod?"MODIFIED PACKAGING":"OLD PACKAGING";
-  var _pkgColor=_pkgMod?"#60a5fa":"#9ca3af";
+  var _pkgColor=_pkgMod?"#3A6EA5":"#8BA0BF";
   var _pkgBg=_pkgMod?"rgba(59,130,246,0.1)":"rgba(156,163,175,0.07)";
   var _pkgBdr=_pkgMod?"rgba(59,130,246,0.35)":"rgba(156,163,175,0.2)";
   var _pkgSub=(_pkg.phase?"Phase: "+_pkg.phase:"")+(_pkg.overridden?" (overridden)":"");
@@ -2719,7 +2853,7 @@ function filterStd(q) {
 
 function renderStdCards(rows) {
   const el = document.getElementById("std-cards"); if (!el) return;
-  const isAdm = role === "admin";
+  const isAdm = isElevated();
   if (!rows.length) { el.innerHTML = `<div class="empty"><div class="empty-i">🔍</div><div class="empty-t">No matches</div></div>`; return; }
   el.innerHTML = "";
   rows.forEach(([k,e]) => {
@@ -2806,7 +2940,7 @@ function spPick(inp) { if (inp.files[0]) { spFile = inp.files[0]; document.getEl
 function spDrop(ev) { ev.preventDefault(); document.getElementById("sp-zone").classList.remove("over"); const f = Array.from(ev.dataTransfer.files).find(f => f.type === "application/pdf"); if (f) { spFile = f; document.getElementById("sp-fn").textContent = f.name; } }
 
 async function spSave() {
-  if (role !== "admin") { toast("Admin only", "err"); return; }
+  if (!isElevated()) { toast("Admin only", "err"); return; }
   const pnos = document.getElementById("sp-pno").value.trim().toUpperCase();
   const pname = document.getElementById("sp-pname").value.trim();
   const notes = document.getElementById("sp-notes").value.trim();
@@ -2842,7 +2976,7 @@ async function spSave() {
 }
 
 async function spAI() {
-  if (role !== "admin") { toast("Admin only", "err"); return; }
+  if (!isElevated()) { toast("Admin only", "err"); return; }
   if (!spFile) { toast("Select a PDF file", "err"); return; }
   if (!getProvider()) { toast("Set API key in Settings", "err"); gotoPage("settings"); return; }
   const st = document.getElementById("sp-st"); st.textContent = "🤖 AI analyzing…";
@@ -2872,7 +3006,7 @@ async function spAI() {
 //  DELETE
 // ════════════════════════════════════════════
 async function delPDF(key) {
-  if (role !== "admin") { toast("Admin only", "err"); return; }
+  if (!isElevated()) { toast("Admin only", "err"); return; }
   if (!confirm(`Delete PDF for ${key}?`)) return;
   const entry = pdfReg[key] || {};
   const parts = entry.linkedParts || [key];
@@ -2886,7 +3020,7 @@ async function delPDF(key) {
   else toast(`✓ Deleted`, "ok");
 }
 async function deleteAll() {
-  if (role !== "admin") { toast("Admin only", "err"); return; }
+  if (!isElevated()) { toast("Admin only", "err"); return; }
   if (!confirm("Delete ALL PDFs? This affects EVERYONE!")) return;
   try {
     // Delete all files from Storage bucket
@@ -2927,17 +3061,17 @@ function renderBulk() {
         <td style="font-size:12px;color:#8BA0BF;">📄 ${b.file.name}</td>
         <td><input type="text" class="fi" style="padding:6px 8px;font-size:12px;font-family:monospace;" placeholder="Part No" id="bpno-${i}" value="${b.pno||guessPNo(b.file.name)}" oninput="bkFiles[${i}].pno=this.value.trim().toUpperCase()"></td>
         <td><input type="text" class="fi" style="padding:6px 8px;font-size:12px;" placeholder="Name" id="bname-${i}" value="${b.pname||""}" oninput="bkFiles[${i}].pname=this.value.trim()"></td>
-        <td><span class="${scls(b.status)}">${slbl(b.status)}</span>${b.error?`<div style="font-size:10px;color:#ef4444;">${b.error}</div>`:""}</td>
+        <td><span class="${scls(b.status)}">${slbl(b.status)}</span>${b.error?`<div style="font-size:10px;color:#C4501A;">${b.error}</div>`:""}</td>
       </tr>`).join("")}</tbody></table></div></div>`;
   } else {
     el.innerHTML = bkFiles.map((b,i) => `<div class="bi"><div class="bih"><span class="bin">📄 ${b.file.name}</span><span class="${scls(b.status)}">${slbl(b.status)}</span></div>
       ${b.result?`<div style="font-size:11px;color:#8BA0BF;">Part: <span style="color:#F47920;font-family:monospace;">${b.result.partNo||"?"}</span> — ${b.result.partName||""}</div>`:""}
-      ${b.error?`<div style="font-size:11px;color:#ef4444;">${b.error}</div>`:""}</div>`).join("");
+      ${b.error?`<div style="font-size:11px;color:#C4501A;">${b.error}</div>`:""}</div>`).join("");
   }
 }
 
 async function bkStart() {
-  if (role !== "admin") { toast("Admin only", "err"); return; }
+  if (!isElevated()) { toast("Admin only", "err"); return; }
   const mode = document.getElementById("bk-mode").value;
   if (mode === "ai" && !getProvider()) { toast("Set API key in Settings", "err"); gotoPage("settings"); return; }
   document.getElementById("bk-start").disabled = true;
@@ -3015,7 +3149,7 @@ function xlImport() {
 }
 
 function addPart() {
-  if (role !== "admin") { toast("Admin only", "err"); return; }
+  if (!isElevated()) { toast("Admin only", "err"); return; }
   const pno = normalizePNo(document.getElementById("ap-no").value);
   const pname = document.getElementById("ap-name").value.trim();
   if (!pno || !pname) { toast("Part No and Name required", "err"); return; }
@@ -3173,18 +3307,18 @@ function updateKeyBadge() {
 async function testKey() {
   const el = document.getElementById("key-test"); el.textContent = "Testing…"; el.style.color = "#4A6080";
   const p = getProvider();
-  if (!p) { el.textContent = "❌ No key set"; el.style.color = "#ef4444"; return; }
+  if (!p) { el.textContent = "❌ No key set"; el.style.color = "#C4501A"; return; }
   try {
     if (p === "gemini") {
       const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${getGKey()}`, {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:"Hi"}]}]})});
       el.textContent = r.ok ? "✓ Gemini Connected!" : "❌ Error " + r.status;
-      el.style.color = r.ok ? "#22c55e" : "#ef4444";
+      el.style.color = r.ok ? "#3A6EA5" : "#C4501A";
     } else {
       const r = await fetch("https://api.anthropic.com/v1/messages", {method:"POST",headers:{"Content-Type":"application/json","anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true","x-api-key":getAKey()},body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:10,messages:[{role:"user",content:"Hi"}]})});
       el.textContent = r.ok ? "✓ Connected!" : "⚠ Error " + r.status;
-      el.style.color = r.ok ? "#22c55e" : "#f59e0b";
+      el.style.color = r.ok ? "#3A6EA5" : "#F47920";
     }
-  } catch(e) { el.textContent = "❌ Network error"; el.style.color = "#ef4444"; }
+  } catch(e) { el.textContent = "❌ Network error"; el.style.color = "#C4501A"; }
 }
 
 // ════════════════════════════════════════════
@@ -3330,7 +3464,7 @@ async function getPDFData(partNo) {
   if (meta?.pdfData && meta.pdfData !== "__local__") return meta.pdfData;
   return null;
 }
-function prefill(pno) { if (role !== "admin") return; gotoPage("add"); document.getElementById("sp-pno").value = pno; }
+function prefill(pno) { if (!isElevated()) return; gotoPage("add"); document.getElementById("sp-pno").value = pno; }
 function toast(msg, type="ok") { const t = document.getElementById("toast"); t.textContent = msg; t.className = "toast " + (type==="ok"?"ok":"err") + " show"; setTimeout(() => t.classList.remove("show"), 3000); }
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeViewer(); });
 document.addEventListener("click", e => { 
@@ -3385,7 +3519,7 @@ function inspSearch() {
   if (!items && !pdf) {
     res.innerHTML = `<div style="text-align:center;padding:40px 20px;">
       <div style="font-size:48px;margin-bottom:16px;">❌</div>
-      <div style="font-size:18px;font-weight:700;color:#ef4444;margin-bottom:8px;">Part Not Found</div>
+      <div style="font-size:18px;font-weight:700;color:#C4501A;margin-bottom:8px;">Part Not Found</div>
       <div style="font-size:14px;color:#8BA0BF;">"${q}" is not in the database</div>
     </div>`;
     return;
@@ -3400,7 +3534,7 @@ function inspSearch() {
   var _pkg=getPackagingStatus(partNo);
   var _pkgMod=(_pkg.status==="modified");
   var _pkgLabel=_pkgMod?"MODIFIED PACKAGING":"OLD PACKAGING";
-  var _pkgColor=_pkgMod?"#60a5fa":"#9ca3af";
+  var _pkgColor=_pkgMod?"#3A6EA5":"#8BA0BF";
   var _pkgBg=_pkgMod?"rgba(59,130,246,0.1)":"rgba(156,163,175,0.07)";
   var _pkgBdr=_pkgMod?"rgba(59,130,246,0.35)":"rgba(156,163,175,0.2)";
   var _pkgSub=(_pkg.phase?"Phase: "+_pkg.phase:"")+(_pkg.overridden?" (overridden)":"");
@@ -3418,8 +3552,8 @@ function inspSearch() {
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
           ${pdf 
-            ? `<span style="background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.4);color:#22c55e;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;">✅ Standard Available</span>`
-            : `<span style="background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);color:#f59e0b;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;">⚠️ No Standard</span>`
+            ? `<span style="background:rgba(58,110,165,0.15);border:1px solid rgba(58,110,165,0.4);color:#3A6EA5;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;">✅ Standard Available</span>`
+            : `<span style="background:rgba(244,121,32,0.15);border:1px solid rgba(244,121,32,0.4);color:#F47920;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;">⚠️ No Standard</span>`
           }
           ${models.length ? `<div style="display:flex;gap:6px;flex-wrap:wrap;">${models.map(m => `<span style="background:#1A2F47;border:1px solid rgba(255,255,255,0.14);padding:3px 10px;border-radius:5px;font-size:11px;font-family:monospace;color:#8BA0BF;">${m}</span>`).join("")}</div>` : ""}
         </div>
@@ -3444,21 +3578,21 @@ function inspSearch() {
 
     <!-- PDF SECTION -->
     ${pdf ? `
-    <div style="background:linear-gradient(135deg,rgba(34,197,94,0.08),rgba(34,197,94,0.04));border:2px solid rgba(34,197,94,0.3);border-radius:14px;padding:20px 24px;margin-bottom:16px;">
+    <div style="background:linear-gradient(135deg,rgba(58,110,165,0.08),rgba(58,110,165,0.04));border:2px solid rgba(58,110,165,0.3);border-radius:14px;padding:20px 24px;margin-bottom:16px;">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
         <div style="display:flex;align-items:center;gap:14px;">
-          <div style="width:50px;height:50px;background:rgba(34,197,94,0.15);border:2px solid rgba(34,197,94,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">📋</div>
+          <div style="width:50px;height:50px;background:rgba(58,110,165,0.15);border:2px solid rgba(58,110,165,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">📋</div>
           <div>
-            <div style="font-size:15px;font-weight:700;color:#22c55e;">Inspection Standard Available</div>
+            <div style="font-size:15px;font-weight:700;color:#3A6EA5;">Inspection Standard Available</div>
             <div style="font-size:13px;color:#8BA0BF;margin-top:2px;">${pdf.partName || partNo} · Added ${pdf.uploadedAt || ""}</div>
             ${pdf.notes ? `<div style="font-size:12px;color:#4A6080;margin-top:1px;">${pdf.notes}</div>` : ""}
           </div>
         </div>
         <div style="display:flex;gap:10px;">
-          <button onclick="openViewer('${pdfKey}','${partNo}')" style="background:#22c55e;border:none;border-radius:10px;padding:12px 24px;color:#0D1B2E;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:8px;">
+          <button onclick="openViewer('${pdfKey}','${partNo}')" style="background:#3A6EA5;border:none;border-radius:10px;padding:12px 24px;color:#0D1B2E;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:8px;">
             👁 View Standard PDF
           </button>
-          <button onclick="dlPDF('${pdfKey}')" style="background:transparent;border:2px solid rgba(34,197,94,0.4);border-radius:10px;padding:12px 18px;color:#22c55e;font-size:14px;font-weight:700;cursor:pointer;">
+          <button onclick="dlPDF('${pdfKey}')" style="background:transparent;border:2px solid rgba(58,110,165,0.4);border-radius:10px;padding:12px 18px;color:#3A6EA5;font-size:14px;font-weight:700;cursor:pointer;">
             ⬇ Download
           </button>
         </div>
@@ -3473,7 +3607,7 @@ function inspSearch() {
       ${ai.defects && ai.defects.length ? `
         <div style="margin-top:10px;">
           <div style="font-size:11px;color:#4A6080;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">⚠ Watch For</div>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;">${ai.defects.map(d => `<span style="font-size:12px;padding:4px 10px;border-radius:20px;background:rgba(239,68,68,0.1);color:#fca5a5;border:1px solid rgba(239,68,68,0.2);">⚠ ${d}</span>`).join("")}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">${ai.defects.map(d => `<span style="font-size:12px;padding:4px 10px;border-radius:20px;background:rgba(196,80,26,0.1);color:#FFC8A0;border:1px solid rgba(196,80,26,0.2);">⚠ ${d}</span>`).join("")}</div>
         </div>` : ""}
       ${ai.childParts && ai.childParts.length ? `
         <div style="margin-top:10px;">
@@ -3481,9 +3615,9 @@ function inspSearch() {
           <div style="display:flex;flex-wrap:wrap;gap:6px;">${ai.childParts.map(c => `<span style="font-size:12px;padding:4px 10px;border-radius:20px;background:rgba(59,130,246,0.1);color:#93c5fd;border:1px solid rgba(59,130,246,0.2);">📦 ${c}</span>`).join("")}</div>
         </div>` : ""}
     </div>` : ""}` 
-    : `<div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:18px 22px;text-align:center;">
+    : `<div style="background:rgba(244,121,32,0.06);border:1px solid rgba(244,121,32,0.2);border-radius:12px;padding:18px 22px;text-align:center;">
       <div style="font-size:32px;margin-bottom:10px;">⚠️</div>
-      <div style="font-size:15px;font-weight:700;color:#f59e0b;margin-bottom:6px;">No Inspection Standard Found</div>
+      <div style="font-size:15px;font-weight:700;color:#F47920;margin-bottom:6px;">No Inspection Standard Found</div>
       <div style="font-size:13px;color:#8BA0BF;">PDF not uploaded for this part. Contact admin to add the standard.</div>
     </div>`}
 
@@ -3730,7 +3864,7 @@ ${sheets.map(s => `<div class="page">${s.html}</div>`).join("\n")}
 
 
 async function xl2pdfStart() {
-  if (role !== "admin") { toast("Admin only", "err"); return; }
+  if (!isElevated()) { toast("Admin only", "err"); return; }
   if (!xl2pdfFiles.length) return;
   
   document.getElementById("xl2pdf-start").disabled = true;
@@ -3826,7 +3960,7 @@ window.addEventListener("DOMContentLoaded", () => {
 </script>
 
 <!-- PKG STATUS MODAL -->
-<div id="pkg-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.75);align-items:center;justify-content:center;"><div style="background:#132336;border:1px solid rgba(244,121,32,0.3);border-radius:16px;padding:26px 30px;min-width:310px;max-width:90vw;"><div style="font-size:16px;font-weight:800;color:#F47920;margin-bottom:4px;">Edit Packaging Status</div><div id="pkg-mpno" style="font-family:monospace;color:#8BA0BF;font-size:12px;margin-bottom:16px;"></div><div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;"><label id="pkg-lmod" style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:12px 14px;border-radius:9px;border:2px solid transparent;"><input type="radio" name="pkg-r" value="modified" style="accent-color:#60a5fa;width:16px;height:16px;"><div><div style="font-size:13px;font-weight:700;color:#60a5fa;">Modified Packaging</div><div style="font-size:11px;color:#4A6080;">Packaging updated from original</div></div></label><label id="pkg-lold" style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:12px 14px;border-radius:9px;border:2px solid transparent;"><input type="radio" name="pkg-r" value="old" style="accent-color:#9ca3af;width:16px;height:16px;"><div><div style="font-size:13px;font-weight:700;color:#9ca3af;">Old Packaging</div><div style="font-size:11px;color:#4A6080;">Original packaging design</div></div></label></div><div id="pkg-phase-wrap" style="display:none;margin-bottom:14px;"><label class="label" style="margin-bottom:6px;">Phase</label><select id="pkg-phase-sel" class="inp" style="margin-bottom:0;"><option value="">— Select Phase —</option><option value="Phase1">Phase 1</option><option value="Phase2">Phase 2</option><option value="Phase3">Phase 3</option><option value="Phase4">Phase 4</option><option value="Phase5">Phase 5</option></select></div><div style="font-size:11px;color:#4A6080;margin-bottom:12px;">Saved locally in your browser.</div><div style="display:flex;gap:8px;justify-content:flex-end;"><button onclick="pkgEditClose()" style="background:transparent;border:1px solid rgba(255,255,255,0.12);color:#8BA0BF;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:13px;">Cancel</button><button onclick="pkgEditSave()" style="background:#F47920;border:none;color:#0D1B2E;border-radius:8px;padding:8px 20px;font-weight:800;cursor:pointer;font-size:13px;">Save</button></div></div></div>
+<div id="pkg-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.75);align-items:center;justify-content:center;"><div style="background:#132336;border:1px solid rgba(244,121,32,0.3);border-radius:16px;padding:26px 30px;min-width:310px;max-width:90vw;"><div style="font-size:16px;font-weight:800;color:#F47920;margin-bottom:4px;">Edit Packaging Status</div><div id="pkg-mpno" style="font-family:monospace;color:#8BA0BF;font-size:12px;margin-bottom:16px;"></div><div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;"><label id="pkg-lmod" style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:12px 14px;border-radius:9px;border:2px solid transparent;"><input type="radio" name="pkg-r" value="modified" style="accent-color:#3A6EA5;width:16px;height:16px;"><div><div style="font-size:13px;font-weight:700;color:#3A6EA5;">Modified Packaging</div><div style="font-size:11px;color:#4A6080;">Packaging updated from original</div></div></label><label id="pkg-lold" style="display:flex;align-items:center;gap:12px;cursor:pointer;padding:12px 14px;border-radius:9px;border:2px solid transparent;"><input type="radio" name="pkg-r" value="old" style="accent-color:#8BA0BF;width:16px;height:16px;"><div><div style="font-size:13px;font-weight:700;color:#8BA0BF;">Old Packaging</div><div style="font-size:11px;color:#4A6080;">Original packaging design</div></div></label></div><div id="pkg-phase-wrap" style="display:none;margin-bottom:14px;"><label class="label" style="margin-bottom:6px;">Phase</label><select id="pkg-phase-sel" class="inp" style="margin-bottom:0;"><option value="">— Select Phase —</option><option value="Phase1">Phase 1</option><option value="Phase2">Phase 2</option><option value="Phase3">Phase 3</option><option value="Phase4">Phase 4</option><option value="Phase5">Phase 5</option></select></div><div style="font-size:11px;color:#4A6080;margin-bottom:12px;">Saved locally in your browser.</div><div style="display:flex;gap:8px;justify-content:flex-end;"><button onclick="pkgEditClose()" style="background:transparent;border:1px solid rgba(255,255,255,0.12);color:#8BA0BF;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:13px;">Cancel</button><button onclick="pkgEditSave()" style="background:#F47920;border:none;color:#0D1B2E;border-radius:8px;padding:8px 20px;font-weight:800;cursor:pointer;font-size:13px;">Save</button></div></div></div>
 <script>
 var _pkgPart=null;
 function pkgEditOpen(p){
