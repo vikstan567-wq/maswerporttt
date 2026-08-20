@@ -567,6 +567,13 @@ body.light .mq-clock{background:linear-gradient(180deg,#1A2F47,#0D1B2E);}
           <div class="flip-logo"><span>+</span>maswer</div>
         </div>
 
+        <!-- online/offline login mode switch -->
+        <div class="role-switch" id="login-mode-switch" style="margin-bottom:10px;">
+          <div class="role-key rk-inspector active" onclick="selectLoginMode('online')" id="lm-online">🌐 Online Login</div>
+          <div class="role-key rk-senior" onclick="selectLoginMode('offline')" id="lm-offline">📴 Offline Login</div>
+        </div>
+        <div id="lm-hint" style="font-size:11px;color:#8BA0BF;text-align:center;margin-bottom:12px;">Online: syncs latest PDFs from cloud. Offline: uses PDFs already downloaded on this device.</div>
+
         <!-- role badge selector — 3 physical-style keys -->
         <div class="role-switch" id="role-switch">
           <div class="role-key rk-inspector" onclick="selectRole('inspector')" id="rk-inspector">🔍 Inspector</div>
@@ -909,6 +916,14 @@ body.light .mq-clock{background:linear-gradient(180deg,#1A2F47,#0D1B2E);}
               </div>
               <button class="btn bg sm" onclick="testKey()">Test Connection</button>
               <span id="key-test" style="font-size:12px;color:#4A6080;margin-left:10px;"></span>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom:16px;">
+            <div class="ch"><span class="ct">📴 Offline Access</span></div>
+            <div class="cb">
+              <div style="font-size:12px;color:#4A6080;margin-bottom:10px;">Download every PDF onto this device (into browser IndexedDB) so the portal keeps working even when Supabase egress is unavailable or there's no internet. Do this while online, before you need offline access.</div>
+              <button class="btn bp sm" id="dl-all-btn" onclick="downloadAllPDFsForOffline()">⬇ Download All PDFs (for Offline Use)</button>
+              <div id="dl-all-status" style="font-size:12px;color:#4A6080;margin-top:10px;"></div>
             </div>
           </div>
           <div class="card" style="margin-bottom:16px;">
@@ -2289,6 +2304,7 @@ let partsDB = {};
 let role = null;
 let userName = "";
 let loginRole = "admin";
+let loginMode = "online"; // "online" | "offline" — chosen on the login screen
 let viewKey = null;
 let spFile = null;
 let xlFile = null;
@@ -2306,6 +2322,7 @@ function syncStatus(s) {
   const txt = document.getElementById("sync-txt");
   if(s === "live") { dot.className = "sd"; txt.textContent = "Data Loaded ✓"; }
   else if(s === "syn") { dot.className = "sd syn"; txt.textContent = "Syncing…"; }
+  else if(s === "offmode") { dot.className = "sd off"; txt.textContent = "📴 Offline Mode"; }
   else { dot.className = "sd off"; txt.textContent = "Offline"; }
 }
 
@@ -2421,7 +2438,9 @@ async function fetchPdfRegOnce() {
     pdfReg = {};
     (data || []).forEach(row => { pdfReg[row.partno] = row.data; });
     syncStatus("live");
+    try { await idbSaveMeta("pdfReg", JSON.stringify(pdfReg)); } catch(e) {}
     renderSidebar(); renderStandards(); renderExportPreview(); renderMgrTable();
+    refreshOfflineStatus();
   } catch(err) {
     syncStatus("off");
     toast("Sync error: " + err.message, "err");
@@ -2505,7 +2524,19 @@ function flipToAdmin() { selectRole("admin"); }
 function flipToInspector() { selectRole("inspector"); }
 function setRole(r) { selectRole(r || "inspector"); }
 
-function doLoginFace(face) {
+function selectLoginMode(m) {
+  loginMode = m;
+  const onlineEl = document.getElementById("lm-online");
+  const offlineEl = document.getElementById("lm-offline");
+  if (onlineEl) onlineEl.classList.toggle("active", m === "online");
+  if (offlineEl) offlineEl.classList.toggle("active", m === "offline");
+  const hint = document.getElementById("lm-hint");
+  if (hint) hint.textContent = m === "offline"
+    ? "Offline: koi internet/cloud call nahi hogi — sirf pehle se is device par download kiye PDFs dikhenge."
+    : "Online: syncs latest PDFs from cloud. Offline: uses PDFs already downloaded on this device.";
+}
+
+async function doLoginFace(face) {
   const nameId = face === "admin" ? "inp-name-admin" : face === "senior" ? "inp-name-senior" : "inp-name-insp";
   const passId = face === "admin" ? "inp-pass-admin" : face === "senior" ? "inp-pass-senior" : "inp-pass-insp";
   const errId  = face === "admin" ? "err-msg-admin" : face === "senior" ? "err-msg-senior" : "err-msg-insp";
@@ -2521,12 +2552,13 @@ function doLoginFace(face) {
   loginRole = face;
   role = face;
   userName = name;
-  localStorage.setItem("mq_sess", JSON.stringify({role, user: userName, ts: Date.now()}));
+  localStorage.setItem("mq_sess", JSON.stringify({role, user: userName, ts: Date.now(), mode: loginMode}));
   document.getElementById("login-screen").style.display = "none";
   document.getElementById("app").style.display = "block";
   setupUI();
   partsDB = getPartsDB();
-  startSync();
+  if (loginMode === "offline") { await startOfflineMode(); }
+  else { startSync(); }
   gotoPage("inspect");
   updateKeyBadge();
 }
@@ -2551,6 +2583,9 @@ function doLogout() {
   document.getElementById("err-msg-insp").style.display = "none";
   document.getElementById("err-msg-senior").style.display = "none";
   document.getElementById("err-msg-admin").style.display = "none";
+  const refreshBtn = document.getElementById("sync-refresh-btn");
+  if (refreshBtn) refreshBtn.style.display = "inline-block";
+  selectLoginMode("online");
   // Reset to inspector panel
   selectRole("inspector");
 }
@@ -3361,14 +3396,18 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 // ════════════════════════════════════════════
 //  INDEXEDDB — PDF STORAGE (unlimited size)
 // ════════════════════════════════════════════
-const IDB_NAME = "MaswerPDFs", IDB_STORE = "pdfs", IDB_VER = 1;
+const IDB_NAME = "MaswerPDFs", IDB_STORE = "pdfs", IDB_META_STORE = "meta", IDB_VER = 2;
 let _idb = null;
 
 function openIDB() {
   if (_idb) return Promise.resolve(_idb);
   return new Promise((res, rej) => {
     const req = indexedDB.open(IDB_NAME, IDB_VER);
-    req.onupgradeneeded = e => e.target.result.createObjectStore(IDB_STORE, {keyPath: "partNo"});
+    req.onupgradeneeded = e => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(IDB_STORE)) db.createObjectStore(IDB_STORE, {keyPath: "partNo"});
+      if (!db.objectStoreNames.contains(IDB_META_STORE)) db.createObjectStore(IDB_META_STORE, {keyPath: "key"});
+    };
     req.onsuccess = e => { _idb = e.target.result; res(_idb); };
     req.onerror = e => rej(e.target.error);
   });
@@ -3399,6 +3438,89 @@ async function idbDel(partNo) {
     tx.objectStore(IDB_STORE).delete(partNo);
     tx.oncomplete = res; tx.onerror = e => rej(e.target.error);
   });
+}
+
+async function idbAllKeys() {
+  const db = await openIDB();
+  return new Promise((res, rej) => {
+    const req = db.transaction(IDB_STORE, "readonly").objectStore(IDB_STORE).getAllKeys();
+    req.onsuccess = e => res(e.target.result || []);
+    req.onerror = e => rej(e.target.error);
+  });
+}
+
+// ── IndexedDB META STORE (caches the pdf registry itself for offline login) ──
+async function idbSaveMeta(key, value) {
+  const db = await openIDB();
+  return new Promise((res, rej) => {
+    const tx = db.transaction(IDB_META_STORE, "readwrite");
+    tx.objectStore(IDB_META_STORE).put({key, value});
+    tx.oncomplete = res; tx.onerror = e => rej(e.target.error);
+  });
+}
+
+async function idbGetMeta(key) {
+  const db = await openIDB();
+  return new Promise((res, rej) => {
+    const req = db.transaction(IDB_META_STORE, "readonly").objectStore(IDB_META_STORE).get(key);
+    req.onsuccess = e => res(e.target.result ? e.target.result.value : null);
+    req.onerror = e => rej(e.target.error);
+  });
+}
+
+// ════════════════════════════════════════════
+//  OFFLINE MODE — bulk download all PDFs, and boot without hitting Supabase
+// ════════════════════════════════════════════
+async function downloadAllPDFsForOffline() {
+  const keys = Object.keys(pdfReg);
+  const btn = document.getElementById("dl-all-btn");
+  const statusEl = document.getElementById("dl-all-status");
+  if (!keys.length) { toast("Koi PDF registry mein nahi hai. Pehle online login karke sync karo.", "err"); return; }
+  if (btn) { btn.disabled = true; }
+  let done = 0, failed = 0, skipped = 0;
+  const already = new Set(await idbAllKeys().catch(() => []));
+  for (const k of keys) {
+    if (already.has(k)) { skipped++; }
+    else {
+      try {
+        const data = await getPDFData(k); // caches into IndexedDB as a side-effect
+        if (data) done++; else failed++;
+      } catch (e) { failed++; }
+    }
+    const total = done + failed + skipped;
+    if (btn) btn.textContent = `⬇ Downloading… ${total}/${keys.length}`;
+    if (statusEl) statusEl.textContent = `${total}/${keys.length} processed (${done} new, ${skipped} already cached, ${failed} failed)`;
+  }
+  try { await idbSaveMeta("pdfReg", JSON.stringify(pdfReg)); } catch (e) {}
+  if (btn) { btn.disabled = false; btn.textContent = "⬇ Download All PDFs (for Offline Use)"; }
+  toast(`Offline ready: ${done + skipped} PDFs available${failed ? `, ${failed} failed` : ""}`, failed ? "err" : "ok");
+  await refreshOfflineStatus();
+}
+
+async function refreshOfflineStatus() {
+  const el = document.getElementById("dl-all-status");
+  if (!el) return;
+  try {
+    const cachedKeys = await idbAllKeys();
+    const total = Object.keys(pdfReg).length;
+    el.textContent = `${cachedKeys.length} of ${total} PDFs cached on this device for offline use.`;
+  } catch (e) { el.textContent = ""; }
+}
+
+async function startOfflineMode() {
+  document.getElementById("sync-pill").style.display = "flex";
+  syncStatus("offmode");
+  const refreshBtn = document.getElementById("sync-refresh-btn");
+  if (refreshBtn) refreshBtn.style.display = "none";
+  try {
+    const cached = await idbGetMeta("pdfReg");
+    pdfReg = cached ? JSON.parse(cached) : {};
+  } catch (e) { pdfReg = {}; }
+  const total = Object.keys(pdfReg).length;
+  if (!total) toast("Offline data nahi mila. Pehle ek baar online login karke 'Download All PDFs' karo.", "err");
+  else toast(`Offline mode: ${total} parts ka data load ho gaya`, "ok");
+  renderSidebar(); renderStandards(); renderExportPreview(); renderMgrTable();
+  refreshOfflineStatus();
 }
 
 // ── SUPABASE STORAGE HELPERS ──────────────────────────────────────────────
@@ -3943,11 +4065,12 @@ window.addEventListener("DOMContentLoaded", () => {
     if (s) {
       const o = JSON.parse(s);
       if (Date.now() - o.ts < 12 * 3600000) {
-        role = o.role; userName = o.user;
+        role = o.role; userName = o.user; loginMode = o.mode === "offline" ? "offline" : "online";
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("app").style.display = "block";
         setupUI(); partsDB = getPartsDB();
-        startSync(); gotoPage("inspect"); updateKeyBadge();
+        if (loginMode === "offline") { startOfflineMode(); } else { startSync(); }
+        gotoPage("inspect"); updateKeyBadge();
         autoLoggedIn = true;
       } else { localStorage.removeItem("mq_sess"); }
     }
