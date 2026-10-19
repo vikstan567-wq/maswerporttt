@@ -503,7 +503,7 @@ body.light #login-screen{
   box-shadow:inset 5px 5px 10px var(--nm-lo),inset -5px -5px 10px var(--nm-hi);}
 .role-switch .role-key{border:none;border-radius:13px;padding:11px 6px;color:var(--nm-txt3);transition:color .2s,box-shadow .2s;}
 .role-switch .role-key:hover{color:var(--nm-txt2);}
-.role-switch .role-key.active,.role-switch .role-key.active.rk-inspector,.role-switch .role-key.active.rk-admin{
+.role-switch .role-key.active,.role-switch .role-key.active.rk-inspector,.role-switch .role-key.active.rk-admin,.role-switch .role-key.active.rk-it{
   background:var(--nm-bg);border:none;transform:none;text-shadow:none;
   box-shadow:6px 6px 12px var(--nm-lo),-6px -6px 12px var(--nm-hi);}
 .role-switch .role-key.active{color:var(--acc-a);}
@@ -893,6 +893,24 @@ body.light{--lg-word:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAApAAAABk
 /* sync / refresh status pill removed (sync still runs silently in the background) */
 .sync-pill,body .sync-pill,body.light .sync-pill{display:none !important;}
 #app .topbar{padding-right:24px;}
+
+/* Excel → PDF admin tool */
+@keyframes x2pNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+@keyframes x2pShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.x2p-anim{display:block;margin:0 auto;overflow:visible;}
+.x2p-arrow{animation:x2pNudge 1.2s ease-in-out infinite;}
+.x2p-shake{animation:x2pShake .4s ease;}
+@media (prefers-reduced-motion:reduce){.x2p-arrow,.x2p-shake{animation:none !important;}}
+
+/* login: smaller logo, calmer background */
+#login-brand .lb-plus{width:40px;height:39px;margin-right:6px;}
+#login-brand .lb-word{width:255px;height:39px;}
+@media (max-height:700px){#login-brand .lb-plus{width:32px;height:31px;margin-right:5px;}#login-brand .lb-word{width:204px;height:31px;}}
+@media (max-width:480px){#login-brand .lb-plus{width:32px;height:31px;margin-right:5px;}#login-brand .lb-word{width:204px;height:31px;}}
+.qs-layer{--k:.7;opacity:.5;}
+.qs-caliper,.qs-check,.qs-shield,.qs-clip,.qs-medal,.qs-target,.qs-gear2{display:none !important;}
+@media (max-width:1100px){.qs-layer{--k:.55;}}
+@media (max-width:900px){.qs-layer{display:none;}}
 </style>
 </head>
 <body>
@@ -1009,33 +1027,16 @@ body.light{--lg-word:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAApAAAABk
   <div class="flip-wrap">
     <div class="flip-inner" id="flip-inner">
       <div class="flip-face">
-        <!-- role badge selector — 3 physical-style keys -->
-        <div class="role-switch" id="role-switch">
-          <div class="role-key rk-inspector" onclick="selectRole('inspector')" id="rk-inspector">🔍 Inspector</div>
-            <div class="role-key rk-admin" onclick="selectRole('admin')" id="rk-admin">🔐 Admin</div>
-        </div>
-
-        <!-- INSPECTOR PANEL -->
-        <div class="role-panel" id="panel-inspector">
-          <div class="errmsg" id="err-msg-insp"></div>
-          <label class="label">Name</label>
-          <input type="text" class="inp" id="inp-name-insp" placeholder="Enter your name">
+        <!-- SINGLE LOGIN: role is picked automatically from the ID -->
+        <div class="role-panel" id="panel-login">
+          <div style="text-align:center;font-size:13px;color:var(--nm-txt2);margin:2px 0 18px;">Sign in to continue</div>
+          <div class="errmsg" id="err-msg-login"></div>
+          <label class="label">ID / Name</label>
+          <input type="text" class="inp" id="inp-name-login" placeholder="Enter your ID" autocomplete="username">
           <label class="label">Password</label>
-          <input type="password" class="inp" id="inp-pass-insp" placeholder="Enter inspector password" onkeydown="if(event.key==='Enter')doLoginFace('inspector')">
-          <button class="btn-login green" onclick="doLoginFace('inspector')">Login as Inspector →</button>
+          <input type="password" class="inp" id="inp-pass-login" placeholder="Enter your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+          <button class="btn-login" onclick="doLogin()">Login →</button>
         </div>
-
-        <!-- ADMIN PANEL -->
-        <div class="role-panel" id="panel-admin" style="display:none">
-          <div class="errmsg" id="err-msg-admin"></div>
-          <label class="label">Name</label>
-          <input type="text" class="inp" id="inp-name-admin" placeholder="Enter your name">
-          <label class="label">Password</label>
-          <input type="password" class="inp" id="inp-pass-admin" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLoginFace('admin')">
-          <button class="btn-login" onclick="doLoginFace('admin')">Login as Admin →</button>
-        </div>
-
-        <div class="flip-hint">Tap a badge above to switch login role</div>
       </div>
     </div>
   </div>
@@ -1071,6 +1072,12 @@ body.light{--lg-word:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAApAAAABk
         <div class="ni" id="n-inspect" onclick="gotoPage('inspect')"><span class="ni-icon">🏭</span>Inspection Start</div>
         <div class="ns">Manage <span style="color:#F47920;font-size:9px;">(Admin)</span></div>
         <div class="ni" id="n-bulk" onclick="adminOnly('bulk')"><span class="ni-icon">📦</span>Bulk Upload<span class="lock-icon" id="lk-bulk"></span></div>
+        <div id="it-nav" style="display:none;">
+          <div class="ns">IT <span style="color:#F47920;font-size:9px;">(IT only)</span></div>
+          <div class="ni" id="n-x2p" onclick="itOnly('x2p')"><span class="ni-icon">🔐</span>Excel → PDF</div>
+          <div class="ni" id="n-parts" onclick="itOnly('parts')"><span class="ni-icon">🗂️</span>Parts Import (Excel)</div>
+          <div class="ni" id="n-ids" onclick="itOnly('ids')"><span class="ni-icon">👥</span>Manage IDs</div>
+        </div>
         <div class="ns">More</div>
         <div class="ni" id="n-standards" onclick="gotoPage('standards')"><span class="ni-icon">📋</span>Standards Library</div>
         <div class="ni" id="n-export" onclick="gotoPage('export')"><span class="ni-icon">⬇️</span>Export Data</div>
@@ -1316,6 +1323,117 @@ body.light{--lg-word:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAApAAAABk
             <button class="btn bp" id="bk-start" onclick="bkStart()" disabled>▶ Start Processing</button>
             <button class="btn bg" onclick="bkClear()">Clear All</button>
             <span id="bk-status" style="font-size:12px;color:#4A6080;"></span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- EXCEL → PDF (admin secret tool) -->
+      <div class="pg" id="pg-x2p">
+        <div class="topbar"><div><div class="page-t">📊 Excel → PDF Converter</div><div class="page-s">IT tool • Vendor Excel ko PDF banao, details auto-fill karke portal me save karo</div></div></div>
+        <div class="pb">
+          <div class="card" id="x2p-gate" style="max-width:400px;margin:30px auto;">
+            <div class="cb" style="text-align:center;padding:30px 24px;">
+              <div style="font-size:44px;line-height:1;">🔐</div>
+              <div class="ct" style="margin:10px 0 4px;">Secret Key Required</div>
+              <div style="font-size:12px;color:var(--text3);margin-bottom:18px;">Ye admin tool hai — secret key daalo</div>
+              <input type="password" id="x2p-pin" class="fi" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="••••" style="text-align:center;letter-spacing:10px;font-size:22px;max-width:200px;margin:0 auto 14px;display:block;" onkeydown="if(event.key==='Enter')x2pUnlock()">
+              <button class="btn bp" onclick="x2pUnlock()">🔓 Unlock</button>
+              <div id="x2p-gate-msg" style="font-size:12px;color:#C4501A;min-height:16px;margin-top:12px;"></div>
+            </div>
+          </div>
+
+          <div id="x2p-main" style="display:none;">
+            <div class="card">
+              <div class="ch">
+                <span class="ct">Excel Files</span>
+                <div class="row"><span class="badge bgray" id="x2p-cnt">0 files</span><button class="btn bg" style="padding:5px 12px;" onclick="x2pLock()">🔒 Lock</button></div>
+              </div>
+              <div class="cb">
+                <div class="uz" id="x2p-uz" onclick="document.getElementById('x2p-inp').click()" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="x2pDrop(event)">
+                  <div class="uz-i"><svg class="x2p-anim" viewBox="0 0 96 56" width="96" height="56" aria-hidden="true">
+                    <rect x="4" y="6" width="30" height="40" rx="4" fill="#fff" stroke="#cfd8e6" stroke-width="1.5"/>
+                    <rect x="4" y="6" width="30" height="9" rx="4" fill="#2E8B57"/>
+                    <path d="M10 22h18M10 29h18M10 36h18M19 15v28" stroke="#b9c5d8" stroke-width="1.4"/>
+                    <g class="x2p-arrow"><path d="M40 26h16M51 20l6 6-6 6" fill="none" stroke="#F47920" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></g>
+                    <rect x="62" y="6" width="30" height="40" rx="4" fill="#fff" stroke="#cfd8e6" stroke-width="1.5"/>
+                    <rect x="62" y="24" width="30" height="12" fill="#F47920"/>
+                    <text x="77" y="33.5" font-size="9" font-weight="800" font-family="Arial,sans-serif" text-anchor="middle" fill="#fff">PDF</text>
+                  </svg></div>
+                  <div class="uz-t">Click or drag Excel (.xlsx) files here</div>
+                  <div style="font-size:11px;color:var(--text3);margin-top:4px;">100+ files ek saath chalegi • .xls ho to Excel me kholkar .xlsx save karo</div>
+                </div>
+                <input type="file" id="x2p-inp" accept=".xlsx" multiple hidden onchange="x2pAdd(Array.from(this.files));this.value=''">
+                <div style="display:flex;gap:10px 22px;flex-wrap:wrap;align-items:center;margin-top:14px;font-size:12px;color:var(--text2);">
+                  <label style="display:flex;gap:7px;align-items:center;">Page
+                    <select class="fi" id="x2p-ori" style="padding:5px 10px;width:auto;"><option value="auto">Auto</option><option value="p">Portrait</option><option value="l">Landscape</option></select></label>
+                  <label style="display:flex;gap:7px;align-items:center;cursor:pointer;"><input type="checkbox" id="x2p-fit" style="accent-color:#F47920;"> Fit each sheet on one page</label>
+                  <label style="display:flex;gap:7px;align-items:center;cursor:pointer;"><input type="checkbox" id="x2p-first" style="accent-color:#F47920;"> First sheet only</label>
+                  <label style="display:flex;gap:7px;align-items:center;cursor:pointer;"><input type="checkbox" id="x2p-hdr" style="accent-color:#F47920;"> maswer logo on every page</label>
+                </div>
+              </div>
+            </div>
+            <div id="x2p-list"></div>
+            <div class="row" style="margin-top:12px;flex-wrap:wrap;">
+              <button class="btn bp" id="x2p-save" onclick="x2pRun(true)" disabled>⚡ Convert &amp; Save to Portal</button>
+              <button class="btn bg" id="x2p-conv" onclick="x2pRun(false)" disabled>Convert only</button>
+              <button class="btn bg" id="x2p-zip" onclick="x2pZip()" disabled>⬇ Download ZIP</button>
+              <button class="btn bg" id="x2p-clr" onclick="x2pClear()" disabled>Clear All</button>
+              <span id="x2p-msg" style="font-size:12px;color:#4A6080;"></span>
+            </div>
+            <div style="height:5px;background:var(--border);border-radius:4px;overflow:hidden;margin-top:12px;"><i id="x2p-pb" style="display:block;height:100%;width:0;background:#F47920;transition:width .2s;"></i></div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- MANAGE IDs (IT only) -->
+      <div class="pg" id="pg-ids">
+        <div class="topbar"><div><div class="page-t">👥 Manage IDs</div><div class="page-s">IT only • Admin, Inspector aur IT ki ID banao aur manage karo</div></div></div>
+        <div class="pb">
+          <div class="card" id="ids-setup" style="display:none;margin-bottom:16px;border-color:#F47920;">
+            <div class="ch"><span class="ct" style="color:#F47920;">⚠️ One-time Supabase setup chahiye</span><button class="btn bg" style="padding:5px 12px;" onclick="idsCopySql()">📋 Copy SQL</button></div>
+            <div class="cb">
+              <div style="font-size:12px;color:var(--text2);margin-bottom:10px;">IDs ko sab devices par chalane ke liye Supabase me ek chhoti table banani hai. Supabase → <b>SQL Editor</b> kholo, ye SQL paste karke <b>Run</b> dabao, phir page refresh karo.</div>
+              <pre id="ids-sql" style="margin:0;padding:12px;border-radius:8px;background:var(--navy3);border:1px solid var(--border2);font-size:11px;overflow:auto;color:var(--text);">create table if not exists public.app_users (
+  uname text primary key,
+  data  jsonb not null default '{}'::jsonb
+);
+alter table public.app_users enable row level security;
+drop policy if exists "app_users_all" on public.app_users;
+create policy "app_users_all" on public.app_users
+  for all to anon using (true) with check (true);</pre>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px;">
+            <div class="ch"><span class="ct">➕ Add New ID</span></div>
+            <div class="cb">
+              <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+                <div style="flex:1;min-width:160px;"><label class="label" style="display:block;font-size:11px;margin-bottom:4px;color:var(--text3);">ID / Name</label><input type="text" class="fi" id="ids-name" placeholder="e.g. rahul" autocomplete="off"></div>
+                <div style="flex:1;min-width:160px;"><label class="label" style="display:block;font-size:11px;margin-bottom:4px;color:var(--text3);">Password</label><input type="text" class="fi" id="ids-pass" placeholder="min 4 characters" autocomplete="off" onkeydown="if(event.key==='Enter')idsAdd()"></div>
+                <div style="min-width:140px;"><label class="label" style="display:block;font-size:11px;margin-bottom:4px;color:var(--text3);">Role</label>
+                  <select class="fi" id="ids-role"><option value="inspector">🔍 Inspector</option><option value="admin">🔐 Admin</option><option value="it">🛠 IT</option></select></div>
+                <button class="btn bp" onclick="idsAdd()">Add ID</button>
+              </div>
+              <div id="ids-msg" style="font-size:12px;min-height:16px;margin-top:10px;color:#4A6080;"></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px;">
+            <div class="ch"><span class="ct">All IDs</span><div class="row"><span class="badge bo" id="ids-cnt">0</span><button class="btn bg" style="padding:5px 12px;" onclick="idsRefresh()">⟳ Refresh</button></div></div>
+            <div style="padding:14px;overflow-x:auto;" id="ids-table"></div>
+          </div>
+
+          <div class="card">
+            <div class="ch"><span class="ct">Login Settings</span></div>
+            <div class="cb">
+              <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:13px;color:var(--text);">
+                <input type="checkbox" id="ids-shared" style="accent-color:#F47920;margin-top:3px;" onchange="idsSetShared(this.checked)">
+                <span>Purane shared passwords bhi chalne do <span style="color:var(--text3);">(Admin / Inspector ka common password)</span>
+                  <div style="font-size:11px;color:var(--text3);margin-top:3px;">OFF karoge to Admin aur Inspector sirf apni banayi hui ID + password se login kar payenge. IT ka master password hamesha chalega, taaki aap kabhi lock na ho.</div></span>
+              </label>
+            </div>
           </div>
         </div>
       </div>
@@ -2748,7 +2866,7 @@ let bkFiles = [];
 let bkMode = "manual";
 // unsubFB removed – no live listener, one-time fetch only
 
-const PASS = { admin: "admin123", inspector: "insp123" };
+const PASS = { admin: "admin123", inspector: "insp123", it: "vivekit" };   // "it" = IT master password (change here)
 
 // ════════════════════════════════════════════
 //  SYNC
@@ -3038,42 +3156,37 @@ async function fbDelAll() {
 // ════════════════════════════════════════════
 //  LOGIN / LOGOUT — 3-WAY ROLE SWITCH VERSION
 // ════════════════════════════════════════════
-const ROLE_ORDER = ["inspector", "admin"];
-
-function selectRole(r) {
-  loginRole = r;
-  ROLE_ORDER.forEach(function(k) {
-    var key = document.getElementById("rk-" + k);
-    var panel = document.getElementById("panel-" + k);
-    if (key) key.classList.toggle("active", k === r);
-    if (panel) panel.style.display = (k === r) ? "block" : "none";
-  });
-  var nameId = r === "admin" ? "inp-name-admin" : "inp-name-insp";
-  var el = document.getElementById(nameId);
+function selectRole(r) {   // kept for old references: role now comes from the ID
+  var el = document.getElementById("inp-name-login");
   if (el) setTimeout(function(){ el.focus(); }, 150);
 }
+function flipToAdmin() { selectRole(); }
+function flipToInspector() { selectRole(); }
+function setRole() { selectRole(); }
 
-// legacy aliases so any older references still work
-function flipToAdmin() { selectRole("admin"); }
-function flipToInspector() { selectRole("inspector"); }
-function setRole(r) { selectRole(r || "inspector"); }
-
-async function doLoginFace(face) {
-  const nameId = face === "admin" ? "inp-name-admin" : "inp-name-insp";
-  const passId = face === "admin" ? "inp-pass-admin" : "inp-pass-insp";
-  const errId  = face === "admin" ? "err-msg-admin" : "err-msg-insp";
-  const name = document.getElementById(nameId).value.trim();
-  const pass = document.getElementById(passId).value;
-  const err  = document.getElementById(errId);
+async function doLogin() {
+  const name = document.getElementById("inp-name-login").value.trim();
+  const pass = document.getElementById("inp-pass-login").value;
+  const err  = document.getElementById("err-msg-login");
   err.style.display = "none";
-  if (!name) { err.textContent = "Please enter your name."; err.style.display = "block"; return; }
-  if (pass !== PASS[face])  { err.textContent = "Wrong password."; err.style.display = "block"; return; }
+  const fail = m => { err.textContent = m; err.style.display = "block"; };
+  if (!name) { fail("Please enter your ID."); return; }
+  if (!pass) { fail("Please enter your password."); return; }
+  const sharedRole = pass === PASS.admin ? "admin" : pass === PASS.inspector ? "inspector" : null;
+  let r = null, shownName = name;
+  if (pass === PASS.it) r = "it";                                  // IT master password always works
+  else if (sharedRole && idsSharedCached()) r = sharedRole;        // old shared role password (if still allowed)
+  if (!r) {
+    try { await idsEnsure(); } catch (e) {}
+    const m = await idsMatch(name, pass);                          // ID created by IT → role comes from the ID
+    if (m) { r = m.role; shownName = m.name || name; }
+    else if (sharedRole && idsState.cfg.sharedPw !== false) r = sharedRole;
+  }
+  if (!r) { fail("Wrong ID or password."); return; }
   // mirror to legacy hidden fields so rest of code works
-  document.getElementById("inp-name").value = name;
+  document.getElementById("inp-name").value = shownName;
   document.getElementById("inp-pass").value = pass;
-  loginRole = face;
-  role = face;
-  userName = name;
+  loginRole = r; role = r; userName = shownName;
   localStorage.setItem("mq_sess", JSON.stringify({role, user: userName, ts: Date.now()}));
   document.getElementById("login-screen").style.display = "none";
   document.getElementById("app").style.display = "block";
@@ -3083,11 +3196,7 @@ async function doLoginFace(face) {
   gotoPage("inspect");
   updateKeyBadge();
 }
-
-function doLogin() {
-  // legacy fallback – redirect to role-based login
-  doLoginFace(loginRole || "inspector");
-}
+function doLoginFace() { return doLogin(); }   // legacy alias
 
 function doLogout() {
   if (!confirm("Logout?")) return;
@@ -3099,12 +3208,10 @@ function doLogout() {
   if (window.playLoginBrand) window.playLoginBrand(250);
   document.getElementById("app").style.display = "none";
   document.getElementById("sync-pill").style.display = "none";
-  document.getElementById("inp-pass-insp").value = "";
-  document.getElementById("inp-pass-admin").value = "";
-  document.getElementById("err-msg-insp").style.display = "none";
-  document.getElementById("err-msg-admin").style.display = "none";
-  // Reset to inspector panel
-  selectRole("inspector");
+  document.getElementById("inp-pass-login").value = "";
+  document.getElementById("inp-name-login").value = "";
+  document.getElementById("err-msg-login").style.display = "none";
+  selectRole();
 }
 
 // ── THEME TOGGLE ──
@@ -3202,12 +3309,15 @@ function closeDotsMenu() {
   document.getElementById("dots-overlay").classList.remove("open");
 }
 
-function isElevated() { return role === "admin"; }
+function isElevated() { return role === "admin" || role === "it"; }
+function isIT() { return role === "it"; }
+function itOnly(pg) { if (!isIT()) { toast("🔒 IT only", "err"); return; } gotoPage(pg); }
 
 function setupUI() {
   const av = document.getElementById("uav");
-  av.textContent = role === "admin" ? "A" : "I";
-  av.className = "uav " + (role === "admin" ? "uav-a" : "uav-i");
+  av.textContent = role === "admin" ? "A" : role === "it" ? "T" : "I";
+  av.className = "uav " + (role === "admin" || role === "it" ? "uav-a" : "uav-i");
+  const itn = document.getElementById("it-nav"); if (itn) itn.style.display = isIT() ? "" : "none";
   document.getElementById("uname").textContent = userName;
   ["bulk","settings"].forEach(id => {
     const n = document.getElementById("n-" + id);
@@ -3229,12 +3339,15 @@ function adminOnly(pg) {
 //  NAVIGATION
 // ════════════════════════════════════════════
 function gotoPage(p) {
+  if ((p === "x2p" || p === "ids") && !isIT()) { toast("🔒 IT only", "err"); p = "inspect"; }
   document.querySelectorAll(".pg").forEach(x => x.classList.remove("active"));
   document.querySelectorAll(".ni").forEach(x => x.classList.remove("active"));
   const pg = document.getElementById("pg-" + p);
   if (pg) pg.classList.add("active");
   const ni = document.getElementById("n-" + p);
   if (ni) ni.classList.add("active");
+  if (p === "x2p") x2pGate();
+  if (p === "ids") idsOpen();
   if (p === "standards") renderStandards();
   if (p === "export") renderExportPreview();
   if (p === "settings") { renderMgrTable(); updateKeyBadge(); }
@@ -4628,7 +4741,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (s) {
       const o = JSON.parse(s);
       if (Date.now() - o.ts < 12 * 3600000) {
-        if (o.role !== "admin" && o.role !== "inspector") throw new Error("old role");
+        if (o.role !== "admin" && o.role !== "inspector" && o.role !== "it") throw new Error("old role");
         role = o.role; userName = o.user;
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("app").style.display = "block";
@@ -4742,6 +4855,366 @@ function pkgEditSave(){
 }
 document.addEventListener("click",function(e){var m=document.getElementById("pkg-modal");if(m&&e.target===m)pkgEditClose();});
 document.addEventListener("change",function(e){if(e.target&&e.target.name==="pkg-r")pkgSelR(e.target.value);});
+</script>
+<script>
+// ════════════════════════════════════════════
+//  EXCEL → PDF  (admin secret tool, key protected)
+// ════════════════════════════════════════════
+const X2P_HASH = 7868856592733453;
+function x2pH(str) { let h1 = 0xdeadbeef, h2 = 0x41c6ce57; for (let i = 0, ch; i < str.length; i++) { ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); } h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507); h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909); h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507); h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909); return 4294967296 * (2097151 & h2) + (h1 >>> 0); }
+let x2pItems = [], x2pBusy = false;
+
+function x2pGate() {
+  document.getElementById("x2p-gate").style.display = "";
+  document.getElementById("x2p-main").style.display = "none";
+  const p = document.getElementById("x2p-pin"); p.value = "";
+  document.getElementById("x2p-gate-msg").textContent = "";
+  setTimeout(() => p.focus(), 120);
+}
+function x2pUnlock() {
+  if (!isIT()) { toast("🔒 IT only", "err"); return; }
+  const p = document.getElementById("x2p-pin"), v = p.value.trim();
+  if (x2pH("maswer-x2p|" + v) === X2P_HASH) {
+    document.getElementById("x2p-gate").style.display = "none";
+    document.getElementById("x2p-main").style.display = "";
+    x2pRender();
+  } else {
+    document.getElementById("x2p-gate-msg").textContent = "❌ Wrong secret key";
+    p.value = ""; p.focus();
+    const g = document.getElementById("x2p-gate"); g.classList.remove("x2p-shake"); void g.offsetWidth; g.classList.add("x2p-shake");
+  }
+}
+function x2pLock() { if (x2pBusy) { toast("Conversion chal raha hai, ruko…", "err"); return; } x2pGate(); }
+
+function x2pLoadScript(src) { return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = () => rej(new Error("Could not load " + src.split("/").pop() + " (internet check karo)")); document.head.appendChild(s); }); }
+function x2pLoadLibs() {
+  if (window._x2pLibs) return window._x2pLibs;
+  const base = "https://cdnjs.cloudflare.com/ajax/libs/";
+  window._x2pLibs = Promise.all([
+    window.ExcelJS ? 0 : x2pLoadScript(base + "exceljs/4.4.0/exceljs.min.js"),
+    window.jspdf ? 0 : x2pLoadScript(base + "jspdf/2.5.1/jspdf.umd.min.js"),
+    window.html2canvas ? 0 : x2pLoadScript(base + "html2canvas/1.4.1/html2canvas.min.js"),
+    window.JSZip ? 0 : x2pLoadScript(base + "jszip/3.10.1/jszip.min.js")
+  ]).catch(e => { window._x2pLibs = null; throw e; });
+  return window._x2pLibs;
+}
+function x2pLogo(pdf, m) {
+  pdf.setFont("helvetica", "bold"); pdf.setFontSize(15);
+  pdf.setTextColor(244, 121, 32); pdf.text("+", m, m + 5.6);
+  pdf.setTextColor(30, 58, 120); pdf.text("maswer", m + 5.2, m + 5.6);
+  pdf.setFont("helvetica", "normal");
+}
+
+// ── Excel → PDF engine (from the standalone converter tool) ──
+(function () {
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const cn=s=>[...s].reduce((a,c)=>a*26+c.charCodeAt(0)-64,0);
+const col=x=>x&&x.argb?'#'+x.argb.slice(-6):null;
+
+async function toPdf(file){const wb=new ExcelJS.Workbook();await wb.xlsx.load(await file.arrayBuffer());
+let sh=wb.worksheets.filter(w=>w.state!=='hidden');if(document.getElementById('x2p-first').checked)sh=sh.slice(0,1);
+let pdf=null;for(const ws of sh){const cv=await sheetCanvas(wb,ws);if(cv)pdf=addPages(pdf,cv,ws.name)}
+if(!pdf)throw new Error('No data found');return pdf.output('blob')}
+async function sheetCanvas(wb,ws){
+const R=ws.rowCount,C=ws.columnCount,imgs=ws.getImages();if(!R&&!imgs.length)return null;
+const px=c=>{const k=ws.getColumn(c);return k.hidden?0:Math.round((k.width||8.43)*7+5)};
+const py=r=>{const w=ws.getRow(r);return w.hidden?0:Math.round((w.height||15)*96/72)};
+let mc=C,mr=R;imgs.forEach(i=>{const e=i.range.br||i.range.tl;mc=Math.max(mc,e.nativeCol+2);mr=Math.max(mr,e.nativeRow+2)});
+const X=[0],Y=[0];for(let c=1;c<=mc;c++)X.push(X[c-1]+px(c));for(let r=1;r<=mr;r++)Y.push(Y[r-1]+py(r));
+const urls=[],boxes=imgs.map(i=>{const m=wb.getImage(i.imageId);if(!m||!m.buffer)return'';const g=i.range,t=g.tl;
+const l=X[t.nativeCol]+t.nativeColOff/9525,tp=Y[t.nativeRow]+t.nativeRowOff/9525;
+const w=g.br?X[g.br.nativeCol]+g.br.nativeColOff/9525-l:g.ext.width,h=g.br?Y[g.br.nativeRow]+g.br.nativeRowOff/9525-tp:g.ext.height;
+const u=URL.createObjectURL(new Blob([m.buffer],{type:'image/'+(m.extension==='jpg'?'jpeg':m.extension)}));urls.push(u);
+return{u,l,t:tp,w,h}}).filter(Boolean);
+let W=X[C]||1,H=Y[R]||1;boxes.forEach(b=>{W=Math.max(W,b.l+b.w);H=Math.max(H,b.t+b.h)});W=Math.ceil(W);H=Math.ceil(H);
+const mg={},cov=new Set();(ws.model.merges||[]).forEach(s=>{const m=s.match(/([A-Z]+)(\d+):([A-Z]+)(\d+)/);if(!m)return;
+const c1=cn(m[1]),r1=+m[2],c2=cn(m[3]),r2=+m[4];mg[r1+','+c1]=[r2-r1+1,c2-c1+1];
+for(let r=r1;r<=r2;r++)for(let c=c1;c<=c2;c++)if(r!==r1||c!==c1)cov.add(r+','+c)});
+let t='';for(let r=1;r<=R;r++){t+=`<tr style="height:${Y[r]-Y[r-1]}px">`;
+for(let c=1;c<=C;c++){if(cov.has(r+','+c))continue;const cell=ws.getCell(r,c),s=cell.style||{},f=s.font||{},a=s.alignment||{},b=s.border||{},fl=s.fill,sp=mg[r+','+c];
+let st=`font-size:${(f.size||11)*96/72}px;`;if(f.bold)st+='font-weight:700;';if(f.italic)st+='font-style:italic;';if(f.underline)st+='text-decoration:underline;';
+const fc=col(f.color);if(fc)st+='color:'+fc+';';
+if(fl&&fl.type==='pattern'&&fl.pattern==='solid'){const bg=col(fl.fgColor);if(bg)st+='background:'+bg+';'}
+st+=`text-align:${a.horizontal==='center'||a.horizontal==='right'?a.horizontal:a.horizontal==='left'?'left':typeof cell.value==='number'?'right':'left'};vertical-align:${a.vertical==='top'?'top':a.vertical==='middle'?'middle':'bottom'};`;
+st+=a.wrapText?'white-space:pre-wrap;word-break:break-word;':'white-space:nowrap;';
+for(const k of['top','left','bottom','right'])if(b[k]&&b[k].style)st+=`border-${k}:${/medium|thick/.test(b[k].style)?2:1}px solid ${col(b[k].color)||'#000'};`;
+let txt='';try{txt=cell.text}catch(e){}
+t+=`<td style="${st}"${sp?` rowspan="${sp[0]}" colspan="${sp[1]}"`:''}>${esc(txt)}</td>`}t+='</tr>'}
+const hold=document.createElement('div');hold.style.cssText='position:fixed;left:-100000px;top:0';
+hold.innerHTML=`<div style="position:relative;width:${W}px;height:${H}px;background:#fff;overflow:hidden"><style>td{padding:0 2px;overflow:hidden;line-height:1.2;font-family:Calibri,Carlito,Arial,sans-serif;color:#000}</style><table style="border-collapse:collapse;table-layout:fixed;width:${X[C]}px"><colgroup>${X.slice(1,C+1).map((x,i)=>`<col style="width:${x-X[i]}px">`).join('')}</colgroup>${t}</table>${boxes.map(b=>`<img src="${b.u}" style="position:absolute;left:${b.l}px;top:${b.t}px;width:${b.w}px;height:${b.h}px">`).join('')}</div>`;
+document.body.appendChild(hold);
+try{await Promise.all([...hold.querySelectorAll('img')].map(i=>i.decode().catch(()=>{})));
+const sc=Math.max(.4,Math.min(2,2400/W,16000/H));
+const cv=await html2canvas(hold.firstChild,{scale:sc,backgroundColor:'#fff',logging:false});cv.lw=W;cv.lh=H;return cv}
+finally{hold.remove();urls.forEach(u=>URL.revokeObjectURL(u))}}
+function addPages(pdf,cv,name){const{jsPDF}=window.jspdf,o=document.getElementById('x2p-ori').value,ori=o==='auto'?(cv.lw>cv.lh?'l':'p'):o;
+if(!pdf)pdf=new jsPDF({orientation:ori,unit:'mm',format:'a4'});else pdf.addPage('a4',ori);
+const pw=pdf.internal.pageSize.getWidth(),ph=pdf.internal.pageSize.getHeight(),m=8,hd=document.getElementById('x2p-hdr').checked?11:0,cw=pw-2*m,ch=ph-2*m-hd;
+const k=document.getElementById('x2p-fit').checked?Math.min(cw/cv.width,ch/cv.height):cw/cv.width,sl=Math.floor(ch/k);let y=0,first=true;
+while(y<cv.height){if(!first)pdf.addPage('a4',ori);first=false;
+if(hd){x2pLogo(pdf,m);pdf.setFontSize(8);pdf.setTextColor(110);pdf.text(String(name),pw-m,m+5,{align:'right'})}
+const h=Math.min(sl,cv.height-y),t=document.createElement('canvas');t.width=cv.width;t.height=h;const g=t.getContext('2d');
+g.fillStyle='#fff';g.fillRect(0,0,t.width,h);g.drawImage(cv,0,y,cv.width,h,0,0,cv.width,h);
+pdf.addImage(t.toDataURL('image/jpeg',.92),'JPEG',m,m+hd,cv.width*k,h*k);y+=h}
+return pdf}
+  window.x2pToPdf = toPdf;
+})();
+
+// ── read Part No / Name / Vendor Code / Vendor Name from the Excel header ──
+async function x2pRead(it) {
+  it.st = "Reading"; x2pRender();
+  try {
+    const buf = await it.f.arrayBuffer();
+    const wb = XLSX.read(new Uint8Array(buf), { type: "array", sheetRows: 30 });
+    let info = null;
+    for (const nm of wb.SheetNames.slice(0, 3)) {
+      const rows = XLSX.utils.sheet_to_json(wb.Sheets[nm], { header: 1, raw: false, defval: "" }).slice(0, 25);
+      const txt = rows.map(r => r.map(c => String(c).trim()).filter(Boolean).join("   ")).join("\n");
+      const p = parsePdfHeader(txt);
+      if (p.partNo || p.partName || p.vendorCode) { info = p; break; }
+    }
+    info = info || { partNo: "", partName: "", vendorCode: "", vendorName: "", model: "" };
+    let pno = info.partNo ? normalizePNo(info.partNo) : "";
+    if (!pno) { const g = it.f.name.replace(/\.xlsx$/i, "").replace(/[^A-Z0-9]/gi, "").toUpperCase(); if (g.length >= 6) pno = g; }
+    it.pno = pno; it.model = info.model || "";
+    const dbItem = pno && partsDB[pno] ? partsDB[pno][0] : null;
+    it.pname = info.partName || (dbItem && dbItem.n) || "";
+    it.vc = info.vendorCode || (dbItem && dbItem.vc) || "";
+    it.vn = info.vendorName || (dbItem && dbItem.vn) || "";
+    it.ex = dbItem ? "db" : ((info.partNo || info.partName || info.vendorCode || info.vendorName) ? "auto" : "none");
+    it.st = "Ready";
+  } catch (e) { console.warn("Excel read failed:", e); it.ex = "none"; it.st = "Ready"; }
+  x2pRender();
+}
+
+function x2pAdd(files) {
+  let bad = 0;
+  for (const f of files) {
+    if (!/\.xlsx$/i.test(f.name)) { bad++; continue; }
+    if (x2pItems.some(x => x.f.name === f.name && x.f.size === f.size)) continue;
+    const it = { f, st: "Waiting", blob: null, pno: "", pname: "", vc: "", vn: "", model: "", ex: "", err: "" };
+    x2pItems.push(it); x2pRead(it);
+  }
+  document.getElementById("x2p-msg").textContent = bad ? bad + " file skip hui — sirf .xlsx chalega (.xls ko Excel me kholkar .xlsx save karo)." : "";
+  x2pRender();
+}
+function x2pDrop(ev) { ev.preventDefault(); document.getElementById("x2p-uz").classList.remove("over"); x2pAdd(Array.from(ev.dataTransfer.files)); }
+
+function x2pBase(it) { return (it.pno || it.f.name.replace(/\.xlsx$/i, "")).replace(/[\\/:*?"<>|]/g, "_"); }
+function x2pClsOf(st) { return st === "Failed" ? "bs2 ser" : /Saved|Converted/.test(st) ? "bs2 sdk" : /ing/.test(st) && st !== "Waiting" ? "bs2 spro" : "bs2 sp"; }
+function x2pTag(it) {
+  return { auto: '<div style="font-size:10px;color:#F47920;">(auto-filled from Excel)</div>',
+           db: '<div style="font-size:10px;color:#8BA0BF;">(already in database)</div>',
+           none: '<div style="font-size:10px;color:#C4501A;">(details nahi mili – khud bharo)</div>' }[it.ex] || "";
+}
+function x2pRender() {
+  const done = x2pItems.filter(i => i.blob).length;
+  const cnt = document.getElementById("x2p-cnt");
+  cnt.textContent = x2pItems.length + " file" + (x2pItems.length === 1 ? "" : "s") + (done ? " • " + done + " converted" : "");
+  document.getElementById("x2p-save").disabled = x2pBusy || !x2pItems.length;
+  document.getElementById("x2p-conv").disabled = x2pBusy || !x2pItems.length;
+  document.getElementById("x2p-zip").disabled = x2pBusy || !done;
+  document.getElementById("x2p-clr").disabled = x2pBusy || !x2pItems.length;
+  const el = document.getElementById("x2p-list");
+  if (!x2pItems.length) { el.innerHTML = ""; return; }
+  el.innerHTML = `<div class="card"><div class="ch"><span class="ct">Part Details</span></div><div style="padding:14px;overflow-x:auto;">
+    <table class="dt"><thead><tr><th>File</th><th>Part No *</th><th>Part Name</th><th>Vendor Code</th><th>Vendor Name</th><th>Status</th><th></th></tr></thead><tbody>
+    ${x2pItems.map((b, i) => `<tr>
+      <td style="font-size:12px;color:#8BA0BF;">📊 ${escAttr(b.f.name)}<div style="font-size:10px;">${(b.f.size / 1048576).toFixed(2)} MB</div></td>
+      <td><input type="text" class="fi" style="padding:6px 8px;font-size:12px;font-family:monospace;" placeholder="Part No" value="${escAttr(b.pno)}" oninput="x2pItems[${i}].pno=this.value.trim().toUpperCase()"></td>
+      <td><input type="text" class="fi" style="padding:6px 8px;font-size:12px;" placeholder="Part Name" value="${escAttr(b.pname)}" oninput="x2pItems[${i}].pname=this.value.trim()"></td>
+      <td><input type="text" class="fi" style="padding:6px 8px;font-size:12px;font-family:monospace;" placeholder="Vendor Code" value="${escAttr(b.vc)}" oninput="x2pItems[${i}].vc=this.value.trim().toUpperCase()"></td>
+      <td><input type="text" class="fi" style="padding:6px 8px;font-size:12px;" placeholder="Vendor Name" value="${escAttr(b.vn)}" oninput="x2pItems[${i}].vn=this.value.trim()"></td>
+      <td><span class="${x2pClsOf(b.st)}">${b.st === "Reading" ? "Reading…" : b.st}</span>${b.err ? `<div style="font-size:10px;color:#C4501A;max-width:160px;">${escAttr(b.err)}</div>` : ""}${x2pTag(b)}</td>
+      <td style="white-space:nowrap;">${b.blob ? `<button class="btn bg" style="padding:4px 10px;" title="PDF download" onclick="x2pDl(${i})">⬇</button> ` : ""}${x2pBusy ? "" : `<button class="btn bg" style="padding:4px 10px;" title="Hatao" onclick="x2pRemove(${i})">✕</button>`}</td>
+    </tr>`).join("")}</tbody></table></div></div>`;
+}
+function x2pRemove(i) { if (x2pBusy) return; x2pItems.splice(i, 1); x2pRender(); }
+function x2pClear() { if (x2pBusy) return; x2pItems = []; document.getElementById("x2p-pb").style.width = 0; document.getElementById("x2p-msg").textContent = ""; x2pRender(); }
+function x2pSaveBlob(name, blob) { const u = URL.createObjectURL(blob), a = document.createElement("a"); a.href = u; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 60000); }
+function x2pDl(i) { const it = x2pItems[i]; if (it && it.blob) x2pSaveBlob(x2pBase(it) + ".pdf", it.blob); }
+async function x2pZip() {
+  const ok = x2pItems.filter(i => i.blob); if (!ok.length) return;
+  const btn = document.getElementById("x2p-zip"); btn.disabled = true; btn.textContent = "Preparing ZIP…";
+  try {
+    await x2pLoadLibs();
+    const z = new JSZip(), used = {};
+    ok.forEach(i => { let n = x2pBase(i) + ".pdf"; if (used[n]) { const k = used[n]++; n = n.replace(/\.pdf$/, ` (${k}).pdf`); } else used[n] = 1; z.file(n, i.blob); });
+    x2pSaveBlob("maswer_PDFs.zip", await z.generateAsync({ type: "blob", compression: "STORE" }));
+  } catch (e) { toast(e.message || "ZIP failed", "err"); }
+  btn.textContent = "⬇ Download ZIP"; x2pRender();
+}
+
+async function x2pSaveItem(it) {
+  const pno = (it.pno || "").trim().toUpperCase(); if (!pno) throw new Error("Part No missing");
+  const nm = (it.pname || "").trim(), vc = (it.vc || "").trim().toUpperCase(), vn = (it.vn || "").trim();
+  const b64 = await toB64(it.blob), szMB = (it.blob.size / 1024 / 1024).toFixed(1);
+  if (!partsDB[pno] && (nm || vc || vn)) {
+    let ex = {}; try { ex = JSON.parse(localStorage.getItem("mq_extra") || "{}"); } catch (e) {}
+    if (!ex[pno]) ex[pno] = [];
+    ex[pno].push({ n: nm, vc: vc, vn: vn, m: it.model || "" });
+    localStorage.setItem("mq_extra", JSON.stringify(ex));
+    partsDB = getPartsDB(); renderSidebar();
+  }
+  const items = partsDB[pno] || [];
+  const storageKey = await uploadToStorage(pno, b64);
+  await idbSave(pno, b64);
+  const entry = { partName: nm || (items[0] && items[0].n) || pno, linkedParts: [pno], storageKey, uploadedAt: today(), notes: (items[0] && items[0].vn) || vn || "", aiSummary: null, fileSizeMB: szMB };
+  await fbSave(pno, { ...entry, partNo: pno });
+}
+async function x2pRun(save) {
+  if (!isIT()) { toast("🔒 IT only", "err"); return; }
+  if (x2pBusy) return;
+  const todo = x2pItems.filter(i => i.st !== "Saved"); if (!todo.length) return;
+  x2pBusy = true; x2pRender();
+  const status = document.getElementById("x2p-msg"), pb = document.getElementById("x2p-pb");
+  status.textContent = "Converter load ho raha hai…";
+  try { await x2pLoadLibs(); } catch (e) { toast(e.message, "err"); status.textContent = e.message; x2pBusy = false; x2pRender(); return; }
+  status.textContent = "";
+  let n = 0, saved = 0, conv = 0, fails = 0;
+  for (const it of todo) {
+    it.err = "";
+    try {
+      if (!it.blob) { it.st = "Converting…"; x2pRender(); it.blob = await window.x2pToPdf(it.f); }
+      conv++;
+      if (save) { it.st = "Saving…"; x2pRender(); await x2pSaveItem(it); it.st = "Saved"; saved++; }
+      else it.st = "Converted";
+    } catch (e) { it.st = "Failed"; it.err = (e && e.message) || String(e); fails++; }
+    n++; pb.style.width = (100 * n / todo.length) + "%"; x2pRender();
+    await sleep(save ? 1200 : 10);
+  }
+  x2pBusy = false; x2pRender();
+  const msg = save ? `✓ ${saved} saved${fails ? ", " + fails + " failed" : ""}` : `✓ ${conv} converted${fails ? ", " + fails + " failed" : ""}`;
+  status.textContent = msg; toast(msg, (save ? saved : conv) > 0 ? "ok" : "err");
+}
+</script>
+<script>
+// ════════════════════════════════════════════
+//  IDs  (IT creates Admin / Inspector / IT logins)
+//  Supabase table: app_users (uname text PK, data jsonb) — passwords stored as SHA-256 hashes
+// ════════════════════════════════════════════
+function mqSha256(str) {
+  const K = []; { let n = 2, c = 0; while (c < 64) { let pr = true; for (let i = 2; i * i <= n; i++) if (n % i === 0) { pr = false; break; } if (pr) { K[c++] = (Math.cbrt(n) % 1) * 4294967296 | 0; } n++; } }
+  let H = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
+  const rr = (v, a) => (v >>> a) | (v << (32 - a));
+  const m = unescape(encodeURIComponent(str)), l = m.length, words = [];
+  for (let i = 0; i < l; i++) words[i >> 2] |= m.charCodeAt(i) << (24 - (i % 4) * 8);
+  words[l >> 2] |= 0x80 << (24 - (l % 4) * 8);
+  words[(((l + 8) >> 6) + 1) * 16 - 1] = l * 8;
+  for (let j = 0; j < words.length; j += 16) {
+    const w = new Array(64); let [a, b, c, d, e, f, g, h] = H;
+    for (let i = 0; i < 64; i++) {
+      if (i < 16) w[i] = words[j + i] | 0;
+      else { const s0 = rr(w[i-15], 7) ^ rr(w[i-15], 18) ^ (w[i-15] >>> 3), s1 = rr(w[i-2], 17) ^ rr(w[i-2], 19) ^ (w[i-2] >>> 10); w[i] = (w[i-16] + s0 + w[i-7] + s1) | 0; }
+      const S1 = rr(e, 6) ^ rr(e, 11) ^ rr(e, 25), ch = (e & f) ^ (~e & g), t1 = (h + S1 + ch + K[i] + w[i]) | 0;
+      const S0 = rr(a, 2) ^ rr(a, 13) ^ rr(a, 22), mj = (a & b) ^ (a & c) ^ (b & c), t2 = (S0 + mj) | 0;
+      h = g; g = f; f = e; e = (d + t1) | 0; d = c; c = b; b = a; a = (t1 + t2) | 0;
+    }
+    H = [(H[0]+a)|0, (H[1]+b)|0, (H[2]+c)|0, (H[3]+d)|0, (H[4]+e)|0, (H[5]+f)|0, (H[6]+g)|0, (H[7]+h)|0];
+  }
+  return H.map(x => ("00000000" + (x >>> 0).toString(16)).slice(-8)).join("");
+}
+const idsKey = n => String(n || "").trim().toLowerCase().replace(/\s+/g, " ");
+const idsHash = (n, p) => mqSha256(idsKey(n) + "|mq-id|" + p);
+const IDS_CACHE = "mq_ids_cache";
+const idsState = { list: [], cfg: { sharedPw: true }, loaded: false, missing: false };
+(function () { try { const c = JSON.parse(localStorage.getItem(IDS_CACHE) || "null"); if (c) { idsState.list = c.list || []; idsState.cfg = c.cfg || { sharedPw: true }; } } catch (e) {} })();
+function idsSharedCached() { return idsState.cfg.sharedPw !== false; }
+function idsPersist() { try { localStorage.setItem(IDS_CACHE, JSON.stringify({ list: idsState.list, cfg: idsState.cfg })); } catch (e) {} }
+const idsIsMissing = e => !!e && (e.code === "42P01" || e.code === "PGRST205" || /app_users/.test(e.message || "") && /(not find|does not exist|schema cache)/i.test(e.message || ""));
+
+async function idsFetch() {
+  const { data, error } = await _sb.from("app_users").select("uname, data");
+  if (error) { if (idsIsMissing(error)) idsState.missing = true; throw error; }
+  idsState.missing = false;
+  const list = []; let cfg = { sharedPw: true };
+  (data || []).forEach(r => { if (r.uname === "__cfg__") cfg = Object.assign({ sharedPw: true }, r.data || {}); else list.push(Object.assign({ key: r.uname }, r.data || {})); });
+  idsState.list = list; idsState.cfg = cfg; idsState.loaded = true; idsPersist();
+}
+async function idsEnsure() {
+  if (idsState.loaded) return;
+  try { await Promise.race([idsFetch(), new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), 4000))]); }
+  catch (e) { /* offline / table missing → use cached list */ }
+}
+async function idsMatch(name, pass) {
+  const k = idsKey(name), u = idsState.list.find(x => x.key === k);
+  if (!u || u.active === false) return null;
+  return u.h === idsHash(k, pass) ? u : null;
+}
+
+// ── IT screen ──
+const idsRoleLbl = r => ({ inspector: "🔍 Inspector", admin: "🔐 Admin", it: "🛠 IT" }[r] || r);
+async function idsOpen() { idsRender(); await idsRefresh(true); }
+async function idsRefresh(quiet) {
+  try { idsState.loaded = false; await idsFetch(); if (!quiet) toast("IDs refresh ho gayi", "ok"); }
+  catch (e) { if (!idsState.missing && !quiet) toast("IDs load nahi hui: " + (e.message || e), "err"); }
+  idsRender();
+}
+function idsRender() {
+  const setup = document.getElementById("ids-setup"); if (setup) setup.style.display = idsState.missing ? "" : "none";
+  const sh = document.getElementById("ids-shared"); if (sh) sh.checked = idsState.cfg.sharedPw !== false;
+  document.getElementById("ids-cnt").textContent = idsState.list.length;
+  const el = document.getElementById("ids-table"); if (!el) return;
+  if (!idsState.list.length) { el.innerHTML = `<div style="padding:18px;text-align:center;color:var(--text3);font-size:13px;">Abhi koi ID nahi hai — upar se pehli ID add karo.</div>`; return; }
+  const rows = idsState.list.slice().sort((a, b) => (a.role + a.name).localeCompare(b.role + b.name));
+  el.innerHTML = `<table class="dt"><thead><tr><th>ID / Name</th><th>Role</th><th>Created</th><th>Status</th><th></th></tr></thead><tbody>${rows.map(u => `<tr>
+    <td style="font-weight:600;">${escAttr(u.name || u.key)}</td><td>${idsRoleLbl(u.role)}</td>
+    <td style="font-size:12px;color:#8BA0BF;">${escAttr(u.created || "")}</td>
+    <td><span class="${u.active === false ? "bs2 ser" : "bs2 sdk"}">${u.active === false ? "Disabled" : "Active"}</span></td>
+    <td style="white-space:nowrap;text-align:right;">
+      <button class="btn bg" style="padding:4px 10px;" onclick="idsResetPw('${escAttr(u.key)}')">🔑 Password</button>
+      <button class="btn bg" style="padding:4px 10px;" onclick="idsToggle('${escAttr(u.key)}')">${u.active === false ? "Enable" : "Disable"}</button>
+      <button class="btn bg" style="padding:4px 10px;" onclick="idsDelete('${escAttr(u.key)}')">🗑</button></td></tr>`).join("")}</tbody></table>`;
+}
+function idsMsg(t, bad) { const m = document.getElementById("ids-msg"); if (m) { m.textContent = t; m.style.color = bad ? "#C4501A" : "#4A6080"; } }
+async function idsSave(u) {
+  const { key, ...data } = u;
+  const { error } = await withRetry(() => _sb.from("app_users").upsert({ uname: key, data }));
+  if (error) { if (idsIsMissing(error)) { idsState.missing = true; idsRender(); } throw error; }
+}
+async function idsAdd() {
+  if (!isIT()) { toast("🔒 IT only", "err"); return; }
+  const name = document.getElementById("ids-name").value.trim().replace(/\s+/g, " "), pass = document.getElementById("ids-pass").value, r = document.getElementById("ids-role").value;
+  const key = idsKey(name);
+  if (key.length < 2 || key === "__cfg__") { idsMsg("ID kam se kam 2 characters ki rakho.", true); return; }
+  if (pass.length < 4) { idsMsg("Password kam se kam 4 characters ka rakho.", true); return; }
+  const old = idsState.list.find(x => x.key === key);
+  if (old && !confirm('"' + old.name + '" ID pehle se hai. Naye password / role se replace kare?')) return;
+  const u = { key, name, role: r, h: idsHash(key, pass), active: true, created: old ? old.created : today(), by: userName };
+  try { await idsSave(u); } catch (e) { idsMsg("Save nahi hui: " + (e.message || e), true); return; }
+  idsState.list = idsState.list.filter(x => x.key !== key).concat(u); idsPersist();
+  document.getElementById("ids-name").value = ""; document.getElementById("ids-pass").value = "";
+  idsMsg("✓ " + name + " (" + idsRoleLbl(r) + ") ID ban gayi.", false); toast("ID add ho gayi", "ok"); idsRender();
+}
+async function idsToggle(key) {
+  const u = idsState.list.find(x => x.key === key); if (!u) return;
+  const nu = Object.assign({}, u, { active: u.active === false });
+  try { await idsSave(nu); } catch (e) { toast("Save error: " + (e.message || e), "err"); return; }
+  Object.assign(u, nu); idsPersist(); idsRender();
+}
+async function idsResetPw(key) {
+  const u = idsState.list.find(x => x.key === key); if (!u) return;
+  const p = prompt("“" + u.name + "” ka naya password (min 4 characters):"); if (p == null) return;
+  if (p.length < 4) { toast("Password kam se kam 4 characters ka ho", "err"); return; }
+  const nu = Object.assign({}, u, { h: idsHash(key, p) });
+  try { await idsSave(nu); } catch (e) { toast("Save error: " + (e.message || e), "err"); return; }
+  Object.assign(u, nu); idsPersist(); toast("Password badal gaya", "ok");
+}
+async function idsDelete(key) {
+  const u = idsState.list.find(x => x.key === key); if (!u) return;
+  if (!confirm('"' + u.name + '" ID delete kare?')) return;
+  try { const { error } = await withRetry(() => _sb.from("app_users").delete().eq("uname", key)); if (error) throw error; }
+  catch (e) { toast("Delete error: " + (e.message || e), "err"); return; }
+  idsState.list = idsState.list.filter(x => x.key !== key); idsPersist(); idsRender();
+}
+async function idsSetShared(on) {
+  if (!on && !idsState.list.some(u => u.active !== false && u.role === "admin") && !confirm("Abhi koi Admin ID nahi hai. Shared password band karoge to Admin login nahi ho payega (IT login chalega). Phir bhi band kare?")) { document.getElementById("ids-shared").checked = true; return; }
+  const cfg = Object.assign({}, idsState.cfg, { sharedPw: !!on });
+  try { const { error } = await withRetry(() => _sb.from("app_users").upsert({ uname: "__cfg__", data: cfg })); if (error) throw error; }
+  catch (e) { toast("Save error: " + (e.message || e), "err"); document.getElementById("ids-shared").checked = idsState.cfg.sharedPw !== false; return; }
+  idsState.cfg = cfg; idsPersist(); toast(on ? "Shared passwords ON" : "Shared passwords OFF", "ok");
+}
+function idsCopySql() { const t = document.getElementById("ids-sql").textContent; try { navigator.clipboard.writeText(t); toast("SQL copy ho gaya", "ok"); } catch (e) { toast("Select karke copy karo", "err"); } }
 </script>
 </body>
 </html>
